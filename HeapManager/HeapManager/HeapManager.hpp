@@ -18,39 +18,44 @@ class HeapManager
 {
 public:
     
-    HeapManager() : m_alignment(4), pFreeMemoryList(nullptr), pFreeDescriptorList(nullptr), pOutstandingAllocationList(nullptr)
+    HeapManager() : m_alignedSize(4), m_pFreeMemoryList(nullptr), m_pFreeDescriptorList(nullptr), m_pOutstandingAllocationList(nullptr)
     {
         
     }
     
     // create a new Allocator
-    HeapManager* _create(void *i_pMemory, const size_t i_sizeMemory, const size_t i_numDescriptors);
+    HeapManager* _create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
     
     // destroy the Allocator
-    inline void _destroy() { free(reinterpret_cast<void*>(pMemory)); }
+    void _destroy();
     
     // display memory lists
     void _display() const;
     
     // allocate a memory to user
-    void* _allocate(const size_t i_size, const int i_guardbandSize = 4);
+    void* _allocate(const size_t i_Size);
     
     //free a memory block
     bool _free(const void* i_pMemory);
     
     //call garbage collection
-    void _garbageCollection();
+    void _recycle();
     
 private:
     
-    size_t pMemorySize;
-    uint8_t m_alignment;
-    uintptr_t pMemory;
+    //Total Memory Size
+    size_t m_MemorySize;
+    
+    //Block aligned Size
+    uint8_t m_alignedSize;
+    
+    //Pointer for Memory Pool
+    uintptr_t m_pMemoryPool;
     
     //memory lists
-    BlockDescriptor* pFreeMemoryList;
-    BlockDescriptor* pFreeDescriptorList;
-    BlockDescriptor* pOutstandingAllocationList;
+    BlockDescriptor* m_pFreeMemoryList;
+    BlockDescriptor* m_pFreeDescriptorList;
+    BlockDescriptor* m_pOutstandingAllocationList;
 };
 
 
