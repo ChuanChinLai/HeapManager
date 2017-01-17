@@ -1,0 +1,287 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EE8355AC1E2DE3D2009B770A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355AB1E2DE3D2009B770A /* main.cpp */; };
+		EE8355B41E2DE49D009B770A /* Unit_Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355B21E2DE49D009B770A /* Unit_Test.cpp */; settings = {ASSET_TAGS = (); }; };
+		EE8355B91E2DF056009B770A /* Block_Descriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355B71E2DF056009B770A /* Block_Descriptor.cpp */; settings = {ASSET_TAGS = (); }; };
+		EE8355BD1E2DF2B4009B770A /* HeapManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355BB1E2DF2B4009B770A /* HeapManager.cpp */; settings = {ASSET_TAGS = (); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		EE8355A61E2DE3D2009B770A /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		EE8355A81E2DE3D2009B770A /* HeapManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HeapManager; sourceTree = BUILT_PRODUCTS_DIR; };
+		EE8355AB1E2DE3D2009B770A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = HeapManager/main.cpp; sourceTree = "<group>"; };
+		EE8355B21E2DE49D009B770A /* Unit_Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Unit_Test.cpp; path = HeapManager/Unit_Test/Unit_Test.cpp; sourceTree = "<group>"; };
+		EE8355B31E2DE49D009B770A /* Unit_Test.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Unit_Test.hpp; path = HeapManager/Unit_Test/Unit_Test.hpp; sourceTree = "<group>"; };
+		EE8355B71E2DF056009B770A /* Block_Descriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Block_Descriptor.cpp; path = BlockDescriptor/Block_Descriptor.cpp; sourceTree = "<group>"; };
+		EE8355B81E2DF056009B770A /* Block_Descriptor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = Block_Descriptor.hpp; path = BlockDescriptor/Block_Descriptor.hpp; sourceTree = "<group>"; };
+		EE8355BB1E2DF2B4009B770A /* HeapManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HeapManager.cpp; path = HeapManager/HeapManager.cpp; sourceTree = "<group>"; };
+		EE8355BC1E2DF2B4009B770A /* HeapManager.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HeapManager.hpp; path = HeapManager/HeapManager.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EE8355A51E2DE3D2009B770A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EE83559F1E2DE3D2009B770A = {
+			isa = PBXGroup;
+			children = (
+				EE8355B51E2DEF96009B770A /* Block Descriptor */,
+				EE8355AA1E2DE3D2009B770A /* HeapManager */,
+				EE8355BA1E2DF260009B770A /* Main */,
+				EE8355A91E2DE3D2009B770A /* Products */,
+				EE8355B61E2DF01D009B770A /* Unit_Test */,
+			);
+			sourceTree = "<group>";
+		};
+		EE8355A91E2DE3D2009B770A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EE8355A81E2DE3D2009B770A /* HeapManager */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EE8355AA1E2DE3D2009B770A /* HeapManager */ = {
+			isa = PBXGroup;
+			children = (
+				EE8355BB1E2DF2B4009B770A /* HeapManager.cpp */,
+				EE8355BC1E2DF2B4009B770A /* HeapManager.hpp */,
+			);
+			path = HeapManager;
+			sourceTree = "<group>";
+		};
+		EE8355B51E2DEF96009B770A /* Block Descriptor */ = {
+			isa = PBXGroup;
+			children = (
+				EE8355B71E2DF056009B770A /* Block_Descriptor.cpp */,
+				EE8355B81E2DF056009B770A /* Block_Descriptor.hpp */,
+			);
+			name = "Block Descriptor";
+			path = HeapManager;
+			sourceTree = "<group>";
+		};
+		EE8355B61E2DF01D009B770A /* Unit_Test */ = {
+			isa = PBXGroup;
+			children = (
+				EE8355B21E2DE49D009B770A /* Unit_Test.cpp */,
+				EE8355B31E2DE49D009B770A /* Unit_Test.hpp */,
+			);
+			name = Unit_Test;
+			sourceTree = "<group>";
+		};
+		EE8355BA1E2DF260009B770A /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				EE8355AB1E2DE3D2009B770A /* main.cpp */,
+			);
+			name = Main;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EE8355A71E2DE3D2009B770A /* HeapManager */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EE8355AF1E2DE3D2009B770A /* Build configuration list for PBXNativeTarget "HeapManager" */;
+			buildPhases = (
+				EE8355A41E2DE3D2009B770A /* Sources */,
+				EE8355A51E2DE3D2009B770A /* Frameworks */,
+				EE8355A61E2DE3D2009B770A /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = HeapManager;
+			productName = HeapManager;
+			productReference = EE8355A81E2DE3D2009B770A /* HeapManager */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EE8355A01E2DE3D2009B770A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = CCLai;
+				TargetAttributes = {
+					EE8355A71E2DE3D2009B770A = {
+						CreatedOnToolsVersion = 7.0;
+					};
+				};
+			};
+			buildConfigurationList = EE8355A31E2DE3D2009B770A /* Build configuration list for PBXProject "HeapManager" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = EE83559F1E2DE3D2009B770A;
+			productRefGroup = EE8355A91E2DE3D2009B770A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EE8355A71E2DE3D2009B770A /* HeapManager */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EE8355A41E2DE3D2009B770A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EE8355AC1E2DE3D2009B770A /* main.cpp in Sources */,
+				EE8355BD1E2DF2B4009B770A /* HeapManager.cpp in Sources */,
+				EE8355B91E2DF056009B770A /* Block_Descriptor.cpp in Sources */,
+				EE8355B41E2DE49D009B770A /* Unit_Test.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		EE8355AD1E2DE3D2009B770A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		EE8355AE1E2DE3D2009B770A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		EE8355B01E2DE3D2009B770A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		EE8355B11E2DE3D2009B770A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EE8355A31E2DE3D2009B770A /* Build configuration list for PBXProject "HeapManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE8355AD1E2DE3D2009B770A /* Debug */,
+				EE8355AE1E2DE3D2009B770A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EE8355AF1E2DE3D2009B770A /* Build configuration list for PBXNativeTarget "HeapManager" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EE8355B01E2DE3D2009B770A /* Debug */,
+				EE8355B11E2DE3D2009B770A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EE8355A01E2DE3D2009B770A /* Project object */;
+}
