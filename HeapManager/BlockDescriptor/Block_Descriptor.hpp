@@ -21,6 +21,7 @@ public:
     {
 
     }
+    
     //Init function
     inline void Init()
     {

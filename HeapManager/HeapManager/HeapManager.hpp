@@ -23,6 +23,8 @@ public:
         
     }
     
+    ~HeapManager();
+    
     // create a new Allocator
     HeapManager* _create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
     
@@ -33,7 +35,7 @@ public:
     void _display() const;
     
     // allocate a memory to user
-    void* _allocate(const size_t i_Size);
+    void* _alloc(const size_t i_Size);
     
     //free a memory block
     bool _free(const void* i_pMemory);

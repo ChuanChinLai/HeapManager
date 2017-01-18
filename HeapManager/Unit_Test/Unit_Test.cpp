@@ -7,9 +7,8 @@
 //
 
 #include "Unit_Test.hpp"
-
-//#include "HeapManagerProxy.h"
-
+#include "HeapManager.hpp"
+#include <cassert>
 #include <string.h>
 #include <sys/malloc.h>
 #include <assert.h>
@@ -29,7 +28,8 @@ bool HeapManager_UnitTest()
     // Create a heap manager for my test heap.
     
     /*
-    HeapManager * pHeapManager = CreateHeapManager( pHeapMemory, sizeHeap, numDescriptors );
+    HeapManager * pHeapManager = nullptr;
+//    CreateHeapManager( pHeapMemory, sizeHeap, numDescriptors );
     assert( pHeapManager );
     if( pHeapManager == NULL )
         return false;
@@ -82,6 +82,7 @@ bool HeapManager_UnitTest()
     {
         const size_t		maxTestAllocationSize = 1024;
         size_t			sizeAlloc = 1 + ( rand() & ( maxTestAllocationSize - 1 ) );
+        
 #ifdef SUPPORT_ALIGNMENT
         const unsigned int	alignments[] = { 4, 8, 16, 32, 64 };
         unsigned int	index = rand() % (sizeof( alignments ) / sizeof( alignments[0] ));
@@ -179,7 +180,6 @@ bool HeapManager_UnitTest()
     pHeapManager = NULL;
     _aligned_free( pHeapMemory );
     // we succeeded
-          */
+    */
     return true;
-
 }

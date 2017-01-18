@@ -11,18 +11,16 @@
 
 int main(int argc, const char * argv[])
 {
-    // insert code here...
+    const size_t 		sizeHeap = 1024 * 1024;
+    const unsigned int 	numDescriptors = 2048;
     
-    void* a1 = malloc(1024);
-    printf("Memory Address: %p\n", a1);
+    void* pHeapMemory = malloc(sizeHeap);
+    printf("Memory Address: %p\n", pHeapMemory);
     
     HeapManager* pHeapProxy = new HeapManager;
-    
-    HeapManager* pHeap = pHeapProxy->_create(a1, 1024, 2);
+    HeapManager* pHeap = pHeapProxy->_create(pHeapMemory, sizeHeap, numDescriptors);
     
     pHeap->_display();
 
-
-    std::cout << "Hello, World!\n";
     return 0;
 }
