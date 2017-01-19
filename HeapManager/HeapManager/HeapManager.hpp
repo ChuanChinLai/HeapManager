@@ -33,6 +33,7 @@ public:
     
     // display memory lists
     void _display() const;
+    void _display(const BlockDescriptor* i_pList) const;
     
     // allocate a memory to user
     void* _alloc(const size_t i_Size);

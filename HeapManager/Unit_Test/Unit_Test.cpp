@@ -17,6 +17,7 @@
 #define _
 #define __SHOW_FREE_BLOCKS
 #define __SHOW_ALLOCATIONS
+
 bool HeapManager_UnitTest()
 {
 //    using namespace HeapManagerProxy;
@@ -27,9 +28,10 @@ bool HeapManager_UnitTest()
     assert( pHeapMemory );
     // Create a heap manager for my test heap.
     
-    /*
-    HeapManager * pHeapManager = nullptr;
-//    CreateHeapManager( pHeapMemory, sizeHeap, numDescriptors );
+    
+    HeapManager* pHeapProxy = new HeapManager;
+    HeapManager *pHeapManager = pHeapProxy->_create(pHeapMemory, sizeHeap, numDescriptors);
+    
     assert( pHeapManager );
     if( pHeapManager == NULL )
         return false;
@@ -90,15 +92,15 @@ bool HeapManager_UnitTest()
         void * pPtr = alloc( pHeapManager, sizeAlloc, alignment );
         assert( (reinterpret_cast<uintptr_t>(pPtr) & (alignment - 1)) == 0 );
 #else
-        void * pPtr = alloc( pHeapManager, sizeAlloc );
+        void * pPtr = pHeapManager->_alloc(sizeAlloc);
 #endif // SUPPORT_ALIGNMENT
         if( pPtr == NULL )
         {
-            Collect( pHeapManager);
+            pHeapManager->_recycle();
 #ifdef SUPPORT_ALIGNMENT
             pPtr = alloc( pHeapManager, sizeAlloc, alignment );
 #else
-            pPtr = alloc( pHeapManager, sizeAlloc );
+            pPtr = pHeapManager->_alloc(sizeAlloc);
 #endif // SUPPORT_ALIGNMENT
             if( pPtr == NULL )
             {
@@ -114,23 +116,24 @@ bool HeapManager_UnitTest()
         {
             void * pPtr = AllocatedAddresses.back();
             AllocatedAddresses.pop_back();
-            bool success = free( pHeapManager, pPtr );
+            bool success = pHeapManager->_free(pPtr);
             assert( success );
             numFrees++;
         }
         if( (rand() % garbageCollectAboutEvery) == 0 )
         {
-            Collect( pHeapManager);
-            
+            pHeapManager->_recycle();
+    
             numCollects++;
         }
     } while( 1 );
 #ifdef __SHOW_FREE_BLOCKS
     printf( "After exhausting allocations:\n" );
-    ShowFreeBlocks( pHeapManager );
+//    ShowFreeBlocks( pHeapManager );
+    pHeapManager->_display();
 #endif // __SHOW_FREE_BLOCKS
 #ifdef __SHOW_ALLOCATIONS
-    ShowOutstandingAllocations( pHeapManager );
+    pHeapManager->_display();
 #endif // __SHOW_ALLOCATIONS
     printf( "\n" );
     // now free those blocks in a random order
@@ -143,43 +146,54 @@ bool HeapManager_UnitTest()
         {
             void * pPtr = AllocatedAddresses.back();
             AllocatedAddresses.pop_back();
+            
+            /*
             bool success = Contains( pHeapManager, pPtr );
             assert( success );
+            
             success = IsAllocated( pHeapManager, pPtr );
             assert( success );
-            success = free( pHeapManager, pPtr );
+            */
+            
+            bool success = pHeapManager->_free(pPtr);
             assert( success );
         }
 #ifdef __SHOW_FREE_BLOCKS
         printf( "After freeing allocations:\n" );
-        ShowFreeBlocks( pHeapManager );
+//        ShowFreeBlocks( pHeapManager );
+        pHeapManager->_display();
 #endif // __SHOW_FREE_BLOCKS
 #ifdef __SHOW_ALLOCATIONS
-        ShowOutstandingAllocations( pHeapManager );
+//        ShowOutstandingAllocations( pHeapManager );
+        pHeapManager->_display();
 #endif // __SHOW_ALLOCATIONS
         // do garbage collection
-        Collect( pHeapManager );
+        pHeapManager->_recycle();
+//        Collect( pHeapManager );
         // our heap should be one single block, all the memory it started with
 #ifdef __SHOW_FREE_BLOCKS
+        
         printf( "After garbage collection:\n" );
-        ShowFreeBlocks( pHeapManager );
+//        ShowFreeBlocks( pHeapManager );
+        pHeapManager->_display();
 #endif // __SHOW_FREE_BLOCKS
 #ifdef __SHOW_ALLOCATIONS
-        ShowOutstandingAllocations( pHeapManager );
+        pHeapManager->_display();
+//        ShowOutstandingAllocations( pHeapManager );
 #endif // __SHOW_ALLOCATIONS
+        
         printf( "\n" );		// do a large test allocation to see if garbage collection worked
-        void * pPtr = alloc( pHeapManager, sizeHeap / 2 );
+        void * pPtr = pHeapManager->_alloc(sizeHeap / 2);
         assert( pPtr );
         if( pPtr )
         {
-            bool success = free( pHeapManager, pPtr );
+            bool success = pHeapManager->_free( pPtr );
             assert( success );
         }
     }
-    Destroy( pHeapManager );
+    pHeapManager->_destroy();
     pHeapManager = NULL;
-    _aligned_free( pHeapMemory );
+    free( pHeapMemory );
     // we succeeded
-    */
     return true;
 }
