@@ -84,6 +84,7 @@ void HeapManager::_destroy()
 
 void HeapManager::_display() const
 {
+    
     //display Memory Block Size:
     printf("Memory Pool Size: %zu\n", m_MemorySize);
     
@@ -91,14 +92,14 @@ void HeapManager::_display() const
     printf("\n##################\n");
     printf("#FreeMemoryList: #\n");
     printf("##################\n\n");
-//    _display(m_pFreeMemoryList);
+    _display(m_pFreeMemoryList);
 
     
     //Display FreeDescriptor list
     printf("\n######################\n");
     printf("#FreeDescriptorList: #\n");
     printf("######################\n\n");
-//    _display(m_pFreeDescriptorList);
+    _display(m_pFreeDescriptorList);
     
     
     //Display OutstandingAllocationList
@@ -306,5 +307,64 @@ bool HeapManager::_free(const void* i_pMemory)
 
 void HeapManager::_recycle()
 {
-    ToolKit::sorting(m_pOutstandingAllocationList);
+    if(m_pFreeMemoryList == nullptr || m_pFreeMemoryList->m_pNext == nullptr)
+    {
+        printf("Garbage Collection is NOT necessary");
+        return;
+    }
+    
+    BlockDescriptor* pTarget = m_pFreeMemoryList;
+    
+    
+    while (pTarget != nullptr)
+    {
+        bool doCollection = false;
+        
+        BlockDescriptor* pThisDES = m_pFreeMemoryList;
+        BlockDescriptor* pPrevDES = nullptr;
+        BlockDescriptor* pNextDES = m_pFreeMemoryList->m_pNext;
+        
+        while (pThisDES != nullptr)
+        {
+            if (pTarget->m_pBlockAddress + pTarget->m_BlockSize == pThisDES->m_pBlockAddress)
+            {
+                pTarget->m_BlockSize += pThisDES->m_BlockSize;
+                
+                if (pPrevDES == nullptr)
+                    m_pFreeMemoryList = pNextDES;
+                else
+                    pPrevDES->m_pNext = pNextDES;
+                
+                pThisDES->m_pNext = m_pFreeDescriptorList;
+                m_pFreeDescriptorList = pThisDES;
+                pThisDES->m_pBlockAddress = NULL;
+                pThisDES->m_BlockSize = 0;
+
+                doCollection = true;
+            }
+            else
+            {
+                pPrevDES = pThisDES;
+                pThisDES = pNextDES;
+                
+                if (pThisDES != nullptr)
+                {
+                    pNextDES = pNextDES->m_pNext;
+                }
+                else
+                {
+                    pNextDES = nullptr;
+                }
+
+            }
+        }
+        
+        if (doCollection == false)
+        {
+            pTarget = pTarget->m_pNext;
+        }
+    }
+    
+    ToolKit::sorting(m_pFreeMemoryList);
+    printf("GG");
 }

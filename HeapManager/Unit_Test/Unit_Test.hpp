@@ -10,5 +10,6 @@
 #define Unit_Test_hpp
 
 #include <stdio.h>
+extern bool HeapManager_UnitTest();
 
 #endif /* Unit_Test_hpp */

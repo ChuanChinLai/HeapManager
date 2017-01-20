@@ -11,9 +11,12 @@
 #include "HeapManager.hpp"
 #include "Block_Descriptor.hpp"
 #include "ToolKit.hpp"
+#include "Unit_Test.hpp"
 
 int main(int argc, const char * argv[])
 {
+    HeapManager_UnitTest();
+    /*
     const size_t 		sizeHeap = 1024 * 1024;
     const unsigned int 	numDescriptors = 2048;
     
@@ -35,6 +38,6 @@ int main(int argc, const char * argv[])
     pHeap->_display();
     pHeap->_recycle();
     pHeap->_display();
-    
+    */
     return 0;
 }

@@ -168,7 +168,9 @@ bool HeapManager_UnitTest()
         pHeapManager->_display();
 #endif // __SHOW_ALLOCATIONS
         // do garbage collection
+        
         pHeapManager->_recycle();
+        
 //        Collect( pHeapManager );
         // our heap should be one single block, all the memory it started with
 #ifdef __SHOW_FREE_BLOCKS
@@ -195,5 +197,7 @@ bool HeapManager_UnitTest()
     pHeapManager = NULL;
     free( pHeapMemory );
     // we succeeded
+    
+    printf("GOOD\n");
     return true;
 }
