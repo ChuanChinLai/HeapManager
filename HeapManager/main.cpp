@@ -6,8 +6,11 @@
 //  Copyright © 2017年 CCLai. All rights reserved.
 //
 
+#include <algorithm>
 #include <iostream>
 #include "HeapManager.hpp"
+#include "Block_Descriptor.hpp"
+#include "ToolKit.hpp"
 
 int main(int argc, const char * argv[])
 {
@@ -20,7 +23,19 @@ int main(int argc, const char * argv[])
     HeapManager* pHeapProxy = new HeapManager;
     HeapManager* pHeap = pHeapProxy->_create(pHeapMemory, sizeHeap, numDescriptors);
     
-    pHeap->_display();
-
+    
+    printf("Memory Address: %d  %p\n", sizeof(BlockDescriptor), pHeap);
+    
+    
+    void* m1 = pHeap->_alloc(12);
+    void* m2 = pHeap->_alloc(1);
+    void* m3 = pHeap->_alloc(5);
+    void* m4 = pHeap->_alloc(34);
+    
+//    pHeap->_display();
+    
+    
+    
+    
     return 0;
 }

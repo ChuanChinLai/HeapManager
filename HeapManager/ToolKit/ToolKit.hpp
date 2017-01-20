@@ -10,6 +10,12 @@
 #define ToolKit_hpp
 
 #include <stdio.h>
+class BlockDescriptor;
+
+namespace ToolKit
+{
+    void swap(BlockDescriptor* descriptor_1, BlockDescriptor* descriptor_2);
+}
 
 
 #endif /* ToolKit_hpp */

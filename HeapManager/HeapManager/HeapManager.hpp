@@ -18,7 +18,13 @@ class HeapManager
 {
 public:
     
-    HeapManager() : m_alignedSize(4), m_pFreeMemoryList(nullptr), m_pFreeDescriptorList(nullptr), m_pOutstandingAllocationList(nullptr)
+    HeapManager() : m_alignedSize(4),
+//                    m_NumDescriptors_FreeMemoryList(0),
+//                    m_NumDescriptors_FreeDescriptorList(0),
+//                    m_NumDescriptors_OutstandingAllocationList(0),
+                    m_pFreeMemoryList(nullptr),
+                    m_pFreeDescriptorList(nullptr),
+                    m_pOutstandingAllocationList(nullptr)
     {
         
     }
@@ -48,6 +54,11 @@ private:
     
     //Total Memory Size
     size_t m_MemorySize;
+    
+    //Number of Descriptor for Descriptor List
+//    size_t m_NumDescriptors_FreeMemoryList;
+//    size_t m_NumDescriptors_FreeDescriptorList;
+//    size_t m_NumDescriptors_OutstandingAllocationList;
     
     //Block aligned Size
     uint8_t m_alignedSize;

@@ -17,7 +17,7 @@ class BlockDescriptor
 public:
 
     //Constructor
-    BlockDescriptor() : m_pBlockBase(NULL), m_BlockSize(0), m_pNext(nullptr)
+    BlockDescriptor() : m_pBlockAddress(NULL), m_BlockSize(0), m_pNext(nullptr)
     {
 
     }
@@ -25,13 +25,19 @@ public:
     //Init function
     inline void Init()
     {
-        m_pBlockBase = NULL;
+        m_pBlockAddress = NULL;
         m_BlockSize = 0;
         m_pNext = nullptr;
     }
     
+    inline void _display() const
+    {
+        printf("Memory Address: %zu\n", m_pBlockAddress);
+        printf("Memory    Size: %zu\n", m_BlockSize);
+    }
+    
     //Pointer be returned to user
-    uintptr_t m_pBlockBase;
+    uintptr_t m_pBlockAddress;
     
     //Block Size
     size_t m_BlockSize;
