@@ -9,6 +9,7 @@
 
 #include "HeapManager.hpp"
 #include "Block_Descriptor.hpp"
+#include "ToolKit.hpp"
 
 
 HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
@@ -90,14 +91,14 @@ void HeapManager::_display() const
     printf("\n##################\n");
     printf("#FreeMemoryList: #\n");
     printf("##################\n\n");
-    _display(m_pFreeMemoryList);
+//    _display(m_pFreeMemoryList);
 
     
     //Display FreeDescriptor list
     printf("\n######################\n");
     printf("#FreeDescriptorList: #\n");
     printf("######################\n\n");
-    _display(m_pFreeDescriptorList);
+//    _display(m_pFreeDescriptorList);
     
     
     //Display OutstandingAllocationList
@@ -236,11 +237,74 @@ void* HeapManager::_alloc(const size_t i_Size)
 
 bool HeapManager::_free(const void* i_pMemory)
 {
-    return false;
+    if (m_pOutstandingAllocationList == nullptr)
+        return false;
+    
+    BlockDescriptor* this_Descriptor = m_pOutstandingAllocationList;
+    BlockDescriptor* prev_Descriptor = nullptr;
+    
+    while (true)
+    {
+        if (this_Descriptor->m_pBlockAddress == reinterpret_cast<uintptr_t>(i_pMemory))
+        {
+            if (prev_Descriptor == nullptr)
+                m_pOutstandingAllocationList = m_pOutstandingAllocationList->m_pNext;
+            else
+                prev_Descriptor->m_pNext = this_Descriptor->m_pNext;
+            
+            break;
+        }
+        
+        prev_Descriptor = this_Descriptor;
+        this_Descriptor = this_Descriptor->m_pNext;
+        
+        if (this_Descriptor == nullptr)
+            return false;
+    }
+    
+    
+    if (m_pFreeMemoryList == nullptr)
+    {
+        m_pFreeMemoryList = this_Descriptor;
+        this_Descriptor->m_pNext = nullptr;
+        return true;
+    }
+    
+    if (m_pFreeMemoryList->m_BlockSize >= this_Descriptor->m_BlockSize)
+    {
+        this_Descriptor->m_pNext = m_pFreeMemoryList;
+        m_pFreeMemoryList = this_Descriptor;
+        return true;
+    }
+    else
+    {
+        BlockDescriptor* this_FML = m_pFreeMemoryList;
+        BlockDescriptor* prev_FML = nullptr;
+        
+        while (this_FML != nullptr)
+        {
+            if (this_FML->m_BlockSize >= this_Descriptor->m_BlockSize)
+            {
+                prev_FML->m_pNext = this_Descriptor;
+                this_Descriptor->m_pNext = this_FML;
+                return true;
+            }
+            else
+            {
+                prev_FML = this_FML;
+                this_FML = this_FML->m_pNext;
+            }
+        }
+        
+        prev_FML->m_pNext = this_Descriptor;
+        this_Descriptor->m_pNext = nullptr;
+        return true;
+    }
+    
 }
 
 
 void HeapManager::_recycle()
 {
-    
+    ToolKit::sorting(m_pOutstandingAllocationList);
 }

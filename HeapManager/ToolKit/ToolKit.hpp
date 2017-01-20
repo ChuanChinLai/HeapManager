@@ -15,6 +15,7 @@ class BlockDescriptor;
 namespace ToolKit
 {
     void swap(BlockDescriptor* descriptor_1, BlockDescriptor* descriptor_2);
+    void sorting(BlockDescriptor* DescriptorList);
 }
 
 

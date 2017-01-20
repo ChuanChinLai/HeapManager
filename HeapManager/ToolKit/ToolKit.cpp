@@ -20,3 +20,27 @@ void ToolKit::swap(BlockDescriptor *descriptor_1, BlockDescriptor *descriptor_2)
     descriptor_2->m_pBlockAddress = tmp_address;
     descriptor_2->m_BlockSize = tmp_size;
 }
+
+
+void ToolKit::sorting(BlockDescriptor *DescriptorList)
+{
+    if (DescriptorList == nullptr)
+        return;
+    
+    BlockDescriptor* this_descriptor = DescriptorList;
+    
+    while (this_descriptor != nullptr)
+    {
+        BlockDescriptor* next_descriptor = this_descriptor->m_pNext;
+        
+        while (next_descriptor != nullptr)
+        {
+            if(this_descriptor->m_BlockSize >= next_descriptor->m_BlockSize)
+            {
+                ToolKit::swap(this_descriptor, next_descriptor);
+            }
+            next_descriptor = next_descriptor->m_pNext;
+        }
+        this_descriptor = this_descriptor->m_pNext;
+    }
+}

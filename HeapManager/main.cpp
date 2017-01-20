@@ -32,10 +32,9 @@ int main(int argc, const char * argv[])
     void* m3 = pHeap->_alloc(5);
     void* m4 = pHeap->_alloc(34);
     
-//    pHeap->_display();
-    
-    
-    
+    pHeap->_display();
+    pHeap->_recycle();
+    pHeap->_display();
     
     return 0;
 }
