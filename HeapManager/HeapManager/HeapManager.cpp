@@ -340,7 +340,9 @@ void HeapManager::_recycle()
                 pThisDES->m_pBlockAddress = NULL;
                 pThisDES->m_BlockSize = 0;
 
+                pThisDES = pNextDES;
                 doCollection = true;
+                printf("Collection Successfully\n");
             }
             else
             {
