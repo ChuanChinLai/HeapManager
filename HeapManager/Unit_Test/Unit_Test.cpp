@@ -194,10 +194,11 @@ bool HeapManager_UnitTest()
         }
     }
     pHeapManager->_destroy();
+    
     pHeapManager = NULL;
+    
     free( pHeapMemory );
     // we succeeded
     
-    printf("GOOD\n");
     return true;
 }

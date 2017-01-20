@@ -142,7 +142,7 @@ void* HeapManager::_alloc(const size_t i_Size)
     else
         size = (i_Size / m_alignedSize + 1) * m_alignedSize;
 
-    
+    /*
     //If there is only a descriptor in pFreeMemoryList
     if (m_pFreeMemoryList->m_pNext == nullptr)
     {
@@ -165,9 +165,9 @@ void* HeapManager::_alloc(const size_t i_Size)
         
         return reinterpret_cast<void*>(newDescriptor->m_pBlockAddress);
     }
-
-    //If first descriptor can be used for allocating:
-    if(m_pFreeMemoryList->m_BlockSize >= size)
+     */
+    //Check whether the first descriptor can be used for allocating and it is not the BIGGEST one:
+    if(m_pFreeMemoryList->m_pNext != nullptr && m_pFreeMemoryList->m_BlockSize >= size)
     {
         BlockDescriptor* this_Descriptor = m_pFreeMemoryList;
         
@@ -180,11 +180,12 @@ void* HeapManager::_alloc(const size_t i_Size)
         
         return reinterpret_cast<void *>(this_Descriptor->m_pBlockAddress);
     }
-    //Or we can look for a good descriptor
+    //Or we can use a good MemoryBlock in pFreeMemoryList for allocating
     else
     {
-        BlockDescriptor* this_Descriptor = m_pFreeMemoryList;
-        BlockDescriptor* prev_Descriptor = nullptr;
+
+        BlockDescriptor* this_Descriptor = m_pFreeMemoryList->m_pNext;
+        BlockDescriptor* prev_Descriptor = m_pFreeMemoryList;
         
         while (this_Descriptor != nullptr)
         {
@@ -196,6 +197,7 @@ void* HeapManager::_alloc(const size_t i_Size)
             else
             {
                 prev_Descriptor->m_pNext = this_Descriptor->m_pNext;
+        
                 this_Descriptor->m_pNext = m_pOutstandingAllocationList;
                 m_pOutstandingAllocationList = this_Descriptor;
                 
@@ -210,7 +212,7 @@ void* HeapManager::_alloc(const size_t i_Size)
         //Last Descriptor in my FreeDescriptorList always has Biggest Size.
         if (m_pFreeDescriptorList == nullptr)
         {
-            printf("Not enough Descriptor for use...");
+            printf("Not enough Descriptor for use...\n");
             return nullptr;
         }
         
@@ -224,7 +226,7 @@ void* HeapManager::_alloc(const size_t i_Size)
         newDescriptor->m_pNext = m_pOutstandingAllocationList;
         m_pOutstandingAllocationList = newDescriptor;
         
-        //Recalculate the BIG memory pool's address and size:
+        //Re-calculate the BIG memory pool's address and size:
         prev_Descriptor->m_BlockSize -= size;
         prev_Descriptor->m_pBlockAddress = prev_Descriptor->m_pBlockAddress + size;
         
@@ -244,10 +246,12 @@ bool HeapManager::_free(const void* i_pMemory)
     BlockDescriptor* this_Descriptor = m_pOutstandingAllocationList;
     BlockDescriptor* prev_Descriptor = nullptr;
     
+    //Looking for whether the MemoryAddress is in the OutstandingAllocationList
     while (true)
     {
         if (this_Descriptor->m_pBlockAddress == reinterpret_cast<uintptr_t>(i_pMemory))
         {
+            //If the MemoryAddress is at the first Descriptor of OutstandingAllocationList
             if (prev_Descriptor == nullptr)
                 m_pOutstandingAllocationList = m_pOutstandingAllocationList->m_pNext;
             else
@@ -256,13 +260,17 @@ bool HeapManager::_free(const void* i_pMemory)
             break;
         }
         
+        //move to next descriptor
         prev_Descriptor = this_Descriptor;
         this_Descriptor = this_Descriptor->m_pNext;
         
+        //If we cannot find the MemoryAddress in OutstandingAllocationList
         if (this_Descriptor == nullptr)
             return false;
     }
     
+    //Insert the descriptor from OutstandingAllocationList into pFreeMemoryList
+    //We have to keep the pFreeMemoryList in sorted order (memory size)
     
     if (m_pFreeMemoryList == nullptr)
     {
@@ -271,6 +279,7 @@ bool HeapManager::_free(const void* i_pMemory)
         return true;
     }
     
+    //If the descriptor can be put in the first position of pFreeMemoryList
     if (m_pFreeMemoryList->m_BlockSize >= this_Descriptor->m_BlockSize)
     {
         this_Descriptor->m_pNext = m_pFreeMemoryList;
@@ -279,25 +288,25 @@ bool HeapManager::_free(const void* i_pMemory)
     }
     else
     {
-        BlockDescriptor* this_FML = m_pFreeMemoryList;
-        BlockDescriptor* prev_FML = nullptr;
+        BlockDescriptor* pThisDES_FML = m_pFreeMemoryList;
+        BlockDescriptor* pPrevDES_FML = nullptr;
         
-        while (this_FML != nullptr)
+        while (pThisDES_FML != nullptr)
         {
-            if (this_FML->m_BlockSize >= this_Descriptor->m_BlockSize)
+            if (pThisDES_FML->m_BlockSize >= this_Descriptor->m_BlockSize)
             {
-                prev_FML->m_pNext = this_Descriptor;
-                this_Descriptor->m_pNext = this_FML;
+                pPrevDES_FML->m_pNext = this_Descriptor;
+                this_Descriptor->m_pNext = pThisDES_FML;
                 return true;
             }
             else
             {
-                prev_FML = this_FML;
-                this_FML = this_FML->m_pNext;
+                pPrevDES_FML = pThisDES_FML;
+                pThisDES_FML = pThisDES_FML->m_pNext;
             }
         }
         
-        prev_FML->m_pNext = this_Descriptor;
+        pPrevDES_FML->m_pNext = this_Descriptor;
         this_Descriptor->m_pNext = nullptr;
         return true;
     }
@@ -307,14 +316,15 @@ bool HeapManager::_free(const void* i_pMemory)
 
 void HeapManager::_recycle()
 {
+    //If FreeMemoryList is NULL or there is only one MemoryBlock: Do nothing...
     if(m_pFreeMemoryList == nullptr || m_pFreeMemoryList->m_pNext == nullptr)
     {
         printf("Garbage Collection is NOT necessary");
         return;
     }
     
+    //Pick a TARGET MemoryBlock for Garbage Collection:
     BlockDescriptor* pTarget = m_pFreeMemoryList;
-    
     
     while (pTarget != nullptr)
     {
@@ -324,43 +334,44 @@ void HeapManager::_recycle()
         BlockDescriptor* pPrevDES = nullptr;
         BlockDescriptor* pNextDES = m_pFreeMemoryList->m_pNext;
         
+        //Looking for a MemoryBlock that can be merged with TARGET
         while (pThisDES != nullptr)
         {
+            //If TARGET can be merged with a MemoryBlock...
             if (pTarget->m_pBlockAddress + pTarget->m_BlockSize == pThisDES->m_pBlockAddress)
             {
+                //Re-calculate TARGET's MemorySize
                 pTarget->m_BlockSize += pThisDES->m_BlockSize;
                 
+                //Re-connect descriptors in pFreeMemoryList
                 if (pPrevDES == nullptr)
                     m_pFreeMemoryList = pNextDES;
                 else
                     pPrevDES->m_pNext = pNextDES;
                 
+                //Free and put the descriptor merged with TARGET in FreeDescriptorList
+                pThisDES->Init();
                 pThisDES->m_pNext = m_pFreeDescriptorList;
                 m_pFreeDescriptorList = pThisDES;
-                pThisDES->m_pBlockAddress = NULL;
-                pThisDES->m_BlockSize = 0;
 
-                pThisDES = pNextDES;
+
                 doCollection = true;
                 printf("Collection Successfully\n");
+                
+                //Go to next potential Descriptor
+                pThisDES = pNextDES;
+                pNextDES = (pThisDES == nullptr) ? nullptr : pNextDES->m_pNext;
             }
             else
             {
+                //Go to next potential Descriptor
                 pPrevDES = pThisDES;
                 pThisDES = pNextDES;
-                
-                if (pThisDES != nullptr)
-                {
-                    pNextDES = pNextDES->m_pNext;
-                }
-                else
-                {
-                    pNextDES = nullptr;
-                }
-
+                pNextDES = (pThisDES == nullptr) ? nullptr : pNextDES->m_pNext;
             }
         }
         
+        //If TARGET can not be merged with others, go to next TARGET
         if (doCollection == false)
         {
             pTarget = pTarget->m_pNext;
@@ -368,5 +379,4 @@ void HeapManager::_recycle()
     }
     
     ToolKit::sorting(m_pFreeMemoryList);
-    printf("GG");
 }
