@@ -8,20 +8,22 @@
 
 #include <algorithm>
 #include <iostream>
+
 #include "HeapManager.hpp"
-#include "Block_Descriptor.hpp"
+#include "BitArray.hpp"
 #include "ToolKit.hpp"
 #include "Unit_Test.hpp"
 
 int main(int argc, const char * argv[])
 {
+
     HeapManager_UnitTest();
+    BitArray_UnitTest();
     
     HeapManager* pHeap = HeapManager::_GetHeapManager();
     
     pHeap->_recycle();
     pHeap->_display();
-    pHeap->_destroy();
 
     const size_t 		sizeHeap = 1024 * 1024;
     const unsigned int 	numDescriptors = 8;

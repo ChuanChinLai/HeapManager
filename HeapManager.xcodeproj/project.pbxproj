@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		EE6B023E1E3342AC0020FAD8 /* BitArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE6B023C1E3342AC0020FAD8 /* BitArray.cpp */; settings = {ASSET_TAGS = (); }; };
 		EE759A021E364BA700D96DB2 /* HeapManager_Operator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE759A001E364BA700D96DB2 /* HeapManager_Operator.cpp */; settings = {ASSET_TAGS = (); }; };
+		EE759A071E36580600D96DB2 /* FixedSizeAllocator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE759A051E36580600D96DB2 /* FixedSizeAllocator.cpp */; settings = {ASSET_TAGS = (); }; };
 		EE8355AC1E2DE3D2009B770A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355AB1E2DE3D2009B770A /* main.cpp */; };
 		EE8355B41E2DE49D009B770A /* Unit_Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355B21E2DE49D009B770A /* Unit_Test.cpp */; settings = {ASSET_TAGS = (); }; };
 		EE8355B91E2DF056009B770A /* Block_Descriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355B71E2DF056009B770A /* Block_Descriptor.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -33,6 +34,8 @@
 		EE6B023D1E3342AC0020FAD8 /* BitArray.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BitArray.hpp; path = HeapManager/BitArray/BitArray.hpp; sourceTree = "<group>"; };
 		EE759A001E364BA700D96DB2 /* HeapManager_Operator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HeapManager_Operator.cpp; path = HeapManager/OperatorNew/HeapManager_Operator.cpp; sourceTree = "<group>"; };
 		EE759A011E364BA700D96DB2 /* HeapManager_Operator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HeapManager_Operator.hpp; path = HeapManager/OperatorNew/HeapManager_Operator.hpp; sourceTree = "<group>"; };
+		EE759A051E36580600D96DB2 /* FixedSizeAllocator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FixedSizeAllocator.cpp; path = HeapManager/FixedSizeAllocator/FixedSizeAllocator.cpp; sourceTree = "<group>"; };
+		EE759A061E36580600D96DB2 /* FixedSizeAllocator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = FixedSizeAllocator.hpp; path = HeapManager/FixedSizeAllocator/FixedSizeAllocator.hpp; sourceTree = "<group>"; };
 		EE8355A81E2DE3D2009B770A /* HeapManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HeapManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE8355AB1E2DE3D2009B770A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = HeapManager/main.cpp; sourceTree = "<group>"; };
 		EE8355B21E2DE49D009B770A /* Unit_Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Unit_Test.cpp; path = HeapManager/Unit_Test/Unit_Test.cpp; sourceTree = "<group>"; };
@@ -74,9 +77,19 @@
 			name = Operator;
 			sourceTree = "<group>";
 		};
+		EE759A041E3657C600D96DB2 /* FixedSizeAllocator */ = {
+			isa = PBXGroup;
+			children = (
+				EE759A051E36580600D96DB2 /* FixedSizeAllocator.cpp */,
+				EE759A061E36580600D96DB2 /* FixedSizeAllocator.hpp */,
+			);
+			name = FixedSizeAllocator;
+			sourceTree = "<group>";
+		};
 		EE83559F1E2DE3D2009B770A = {
 			isa = PBXGroup;
 			children = (
+				EE759A041E3657C600D96DB2 /* FixedSizeAllocator */,
 				EE6B023B1E3342840020FAD8 /* BitArray */,
 				EE8355B51E2DEF96009B770A /* Block Descriptor */,
 				EE8355AA1E2DE3D2009B770A /* HeapManager */,
@@ -200,6 +213,7 @@
 				EE8355AC1E2DE3D2009B770A /* main.cpp in Sources */,
 				EE6B023E1E3342AC0020FAD8 /* BitArray.cpp in Sources */,
 				EE8355BD1E2DF2B4009B770A /* HeapManager.cpp in Sources */,
+				EE759A071E36580600D96DB2 /* FixedSizeAllocator.cpp in Sources */,
 				EE8355B91E2DF056009B770A /* Block_Descriptor.cpp in Sources */,
 				EE92E4E31E2F2ACB0075D373 /* ToolKit.cpp in Sources */,
 				EE759A021E364BA700D96DB2 /* HeapManager_Operator.cpp in Sources */,

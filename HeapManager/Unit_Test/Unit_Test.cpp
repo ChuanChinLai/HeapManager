@@ -8,6 +8,8 @@
 
 #include "Unit_Test.hpp"
 #include "HeapManager.hpp"
+#include "BitArray.hpp"
+
 #include <cassert>
 #include <string.h>
 #include <sys/malloc.h>
@@ -217,4 +219,41 @@ bool HeapManager_UnitTest()
     // we succeeded
     
     return true;
+}
+
+void BitArray_UnitTest(void)
+{
+    const size_t bitCount = 1000;
+    BitArray* pMyArray = BitArray::_create(bitCount, HeapManager::_GetHeapManager());
+    
+    pMyArray->SetBit(20);
+    size_t firstSetBit = 0;
+    size_t firstClearBit = 0;
+    bool foundSetBit = pMyArray->GetFirstSetBit(firstSetBit);
+    assert(foundSetBit && (firstSetBit == 20));
+    pMyArray->ClearBit(20);
+    foundSetBit = pMyArray->GetFirstSetBit(firstSetBit);
+    assert(foundSetBit == false);
+    
+    for (unsigned int i = 0; i < bitCount; i++)
+    {
+        assert(pMyArray->IsBitClear(i) == true);
+        assert(pMyArray->IsBitSet(i) == false);
+        size_t bit = 0;
+        pMyArray->GetFirstClearBit(bit);
+        assert(bit == i);
+        pMyArray->SetBit(i);
+        assert(pMyArray->IsBitClear(i) == false);
+        assert(pMyArray->IsBitSet(i) == true);
+        bool success = pMyArray->GetFirstClearBit(bit);
+        assert(((i < (bitCount - 1)) && success && (bit == (i + 1))) || ((i == (bitCount - 1)) && !success));
+    }
+    pMyArray->SetAll();
+    assert(pMyArray->GetFirstClearBit(firstClearBit) == false);
+    pMyArray->ClearAll();
+    assert(pMyArray->GetFirstSetBit(firstSetBit) == false);
+    printf("Pass my Unit_Test for BitArray!!!\n");
+    
+    delete pMyArray;
+    pMyArray = nullptr;
 }

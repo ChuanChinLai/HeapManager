@@ -43,12 +43,12 @@ HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize
     m_pOutstandingAllocationList = nullptr;
     
     //Setting Memory Info:
-    m_MemorySize = i_MemorySize;
+    m_MemoryTotalSize = i_MemorySize;
     m_pMemoryPool = reinterpret_cast<uintptr_t>(i_pMemoryPool);
     
     //Total Descriptors Size:
     size_t descriptorsTotalSize = i_NumDescriptors * sizeof(BlockDescriptor);
-    assert(m_MemorySize > descriptorsTotalSize);
+    assert(m_MemoryTotalSize > descriptorsTotalSize);
     
     
     //position of Pointer
@@ -59,7 +59,7 @@ HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize
     //Init Free Memory List
     m_pFreeMemoryList = reinterpret_cast<BlockDescriptor*>(pCurrentAddress);
     m_pFreeMemoryList->m_pBlockAddress = pUsableMemory;
-    m_pFreeMemoryList->m_BlockSize = m_MemorySize - descriptorsTotalSize;
+    m_pFreeMemoryList->m_BlockSize = m_MemoryTotalSize - descriptorsTotalSize;
     m_pFreeMemoryList->m_pNext = nullptr;
     
     //move to next descriptor:
@@ -112,9 +112,8 @@ void HeapManager::_destroy()
 
 void HeapManager::_display() const
 {
-    
     //display Memory Block Size:
-    printf("Memory Pool Size: %zu\n", m_MemorySize);
+    printf("Memory Pool Size: %zu\n", m_MemoryTotalSize);
     
     //Display FreeMemoryList
     printf("\n##################\n");
@@ -135,7 +134,6 @@ void HeapManager::_display() const
     printf("#OutstandingAllocationList: #\n");
     printf("#############################\n\n");
     _display(m_pOutstandingAllocationList);
-    
 }
 
 void HeapManager::_display(const BlockDescriptor* i_pList) const

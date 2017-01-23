@@ -51,9 +51,9 @@ public:
 private:
     
     HeapManager() : m_alignedSize(4),
-    m_pFreeMemoryList(nullptr),
-    m_pFreeDescriptorList(nullptr),
-    m_pOutstandingAllocationList(nullptr)
+                    m_pFreeMemoryList(nullptr),
+                    m_pFreeDescriptorList(nullptr),
+                    m_pOutstandingAllocationList(nullptr)
     {
         
     }
@@ -68,7 +68,7 @@ private:
     void _display(const BlockDescriptor* i_pList) const;
     
     //Total Memory Size
-    size_t m_MemorySize;
+    size_t m_MemoryTotalSize;
     
     //Block aligned Size
     uint8_t m_alignedSize;

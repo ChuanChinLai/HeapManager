@@ -13,20 +13,17 @@
 #include <stdlib.h>
 #include <cassert>
 
-extern void BitArray_UnitTest(void);
-
 class HeapManager;
 
 class BitArray
 {
 public:
     
-    static BitArray* _create(const size_t i_numBits, HeapManager* i_pAllocator);
-    
     ~BitArray();
     
-    void _display(void) const;
+    static BitArray* _create(const size_t i_NumBits, HeapManager* i_pHeapManager);
     
+    //Support Function for BitArray:
     void ClearAll(void);
     void SetAll(void);
     
@@ -44,25 +41,21 @@ public:
     
     bool operator[](size_t i_bitNumber) const;
     
-    BitArray(const size_t i_NumBits, uint8_t* i_pBits): bitsPerBytes(8), m_NumBits(i_NumBits), m_pBits(i_pBits)
-    {
-        
-        m_NumBytes = i_NumBits / bitsPerBytes + 1;
-        
-        if (i_NumBits % bitsPerBytes == 0)
-            m_NumBytes--;
-        
-        assert(m_pBits);
-        
-        ClearAll();
-    };
-    
 private:
-
+    
+    BitArray(const size_t i_NumBits, uint8_t* i_pBitArray);
+    
+    //number of Bits
     size_t m_NumBits;
+    
+    //number of Bytes
     size_t m_NumBytes;
-    uint8_t* m_pBits;
-    uint8_t bitsPerBytes;
+    
+    //Pointer to BitArray
+    uint8_t* m_pBitArray;
+    
+    //BitsPerBytes = 8;
+    static const uint8_t BitsPerBytes;
 };
 
 #endif /* BitArray_hpp */
