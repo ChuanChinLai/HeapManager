@@ -254,7 +254,7 @@ void displayBits(uint8_t i_value)
 /*
 void BitArray_UnitTest(void)
 {
-    HeapManager* pHeapManager = HeapManager::pHeapManager;
+    HeapManager* s_pHeapManager = HeapManager::s_pHeapManager;
     
     const size_t bitCount = 1000;
     void* memory = malloc(1024);
@@ -292,6 +292,6 @@ void BitArray_UnitTest(void)
     pMyArray = nullptr;
     
     
-    delete pHeapManager;
+    delete s_pHeapManager;
 }
 */

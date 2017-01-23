@@ -58,9 +58,7 @@ public:
     };
     
 private:
-    
 
-    
     size_t m_NumBits;
     size_t m_NumBytes;
     uint8_t* m_pBits;

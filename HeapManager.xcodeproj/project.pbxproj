@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EE6B023E1E3342AC0020FAD8 /* BitArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE6B023C1E3342AC0020FAD8 /* BitArray.cpp */; settings = {ASSET_TAGS = (); }; };
+		EE759A021E364BA700D96DB2 /* HeapManager_Operator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE759A001E364BA700D96DB2 /* HeapManager_Operator.cpp */; settings = {ASSET_TAGS = (); }; };
 		EE8355AC1E2DE3D2009B770A /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355AB1E2DE3D2009B770A /* main.cpp */; };
 		EE8355B41E2DE49D009B770A /* Unit_Test.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355B21E2DE49D009B770A /* Unit_Test.cpp */; settings = {ASSET_TAGS = (); }; };
 		EE8355B91E2DF056009B770A /* Block_Descriptor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EE8355B71E2DF056009B770A /* Block_Descriptor.cpp */; settings = {ASSET_TAGS = (); }; };
@@ -30,7 +31,8 @@
 /* Begin PBXFileReference section */
 		EE6B023C1E3342AC0020FAD8 /* BitArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = BitArray.cpp; path = HeapManager/BitArray/BitArray.cpp; sourceTree = "<group>"; };
 		EE6B023D1E3342AC0020FAD8 /* BitArray.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = BitArray.hpp; path = HeapManager/BitArray/BitArray.hpp; sourceTree = "<group>"; };
-		EE7599FF1E33554100D96DB2 /* HeapManager-inline.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; name = "HeapManager-inline.hpp"; path = "HeapManager/HeapManager-inline.hpp"; sourceTree = "<group>"; };
+		EE759A001E364BA700D96DB2 /* HeapManager_Operator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = HeapManager_Operator.cpp; path = HeapManager/OperatorNew/HeapManager_Operator.cpp; sourceTree = "<group>"; };
+		EE759A011E364BA700D96DB2 /* HeapManager_Operator.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = HeapManager_Operator.hpp; path = HeapManager/OperatorNew/HeapManager_Operator.hpp; sourceTree = "<group>"; };
 		EE8355A81E2DE3D2009B770A /* HeapManager */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = HeapManager; sourceTree = BUILT_PRODUCTS_DIR; };
 		EE8355AB1E2DE3D2009B770A /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = HeapManager/main.cpp; sourceTree = "<group>"; };
 		EE8355B21E2DE49D009B770A /* Unit_Test.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Unit_Test.cpp; path = HeapManager/Unit_Test/Unit_Test.cpp; sourceTree = "<group>"; };
@@ -63,6 +65,15 @@
 			name = BitArray;
 			sourceTree = "<group>";
 		};
+		EE759A031E364BAD00D96DB2 /* Operator */ = {
+			isa = PBXGroup;
+			children = (
+				EE759A001E364BA700D96DB2 /* HeapManager_Operator.cpp */,
+				EE759A011E364BA700D96DB2 /* HeapManager_Operator.hpp */,
+			);
+			name = Operator;
+			sourceTree = "<group>";
+		};
 		EE83559F1E2DE3D2009B770A = {
 			isa = PBXGroup;
 			children = (
@@ -70,6 +81,7 @@
 				EE8355B51E2DEF96009B770A /* Block Descriptor */,
 				EE8355AA1E2DE3D2009B770A /* HeapManager */,
 				EE8355BA1E2DF260009B770A /* Main */,
+				EE759A031E364BAD00D96DB2 /* Operator */,
 				EE8355A91E2DE3D2009B770A /* Products */,
 				EE92E4E41E2F2ACF0075D373 /* ToolKit */,
 				EE8355B61E2DF01D009B770A /* Unit_Test */,
@@ -89,7 +101,6 @@
 			children = (
 				EE8355BB1E2DF2B4009B770A /* HeapManager.cpp */,
 				EE8355BC1E2DF2B4009B770A /* HeapManager.hpp */,
-				EE7599FF1E33554100D96DB2 /* HeapManager-inline.hpp */,
 			);
 			path = HeapManager;
 			sourceTree = "<group>";
@@ -191,6 +202,7 @@
 				EE8355BD1E2DF2B4009B770A /* HeapManager.cpp in Sources */,
 				EE8355B91E2DF056009B770A /* Block_Descriptor.cpp in Sources */,
 				EE92E4E31E2F2ACB0075D373 /* ToolKit.cpp in Sources */,
+				EE759A021E364BA700D96DB2 /* HeapManager_Operator.cpp in Sources */,
 				EE8355B41E2DE49D009B770A /* Unit_Test.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

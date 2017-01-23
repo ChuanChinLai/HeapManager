@@ -11,14 +11,14 @@
 #include "Block_Descriptor.hpp"
 #include "ToolKit.hpp"
 
-HeapManager* HeapManager::pHeapManager = nullptr;
+HeapManager* HeapManager::s_pHeapManager = nullptr;
 
 HeapManager* HeapManager::_init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
 {
-    if (pHeapManager == nullptr)
+    if (s_pHeapManager == nullptr)
     {
         static HeapManager Instance;
-        pHeapManager = &Instance;
+        s_pHeapManager = &Instance;
         Instance._create(i_pMemoryPool, i_MemorySize, i_NumDescriptors);
         printf("\nCreate a new HeapManager\n");
     }
@@ -27,7 +27,7 @@ HeapManager* HeapManager::_init(void *i_pMemoryPool, const size_t i_MemorySize, 
         printf("\nHeapManager already exists\n");
     }
     
-    return pHeapManager;
+    return s_pHeapManager;
 }
 
 
@@ -36,6 +36,11 @@ HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize
     
     assert(i_MemorySize > 0);
     assert(i_NumDescriptors > 0);
+    
+    //Init Descriptors List:
+    m_pFreeMemoryList = nullptr;
+    m_pFreeDescriptorList = nullptr;
+    m_pOutstandingAllocationList = nullptr;
     
     //Setting Memory Info:
     m_MemorySize = i_MemorySize;
@@ -98,8 +103,11 @@ HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize
 
 void HeapManager::_destroy()
 {
-//    delete pHeapManager;
-//    pHeapManager = nullptr;
+    s_pHeapManager = nullptr;
+    
+    m_pFreeMemoryList = nullptr;
+    m_pFreeDescriptorList = nullptr;
+    m_pOutstandingAllocationList = nullptr;
 }
 
 void HeapManager::_display() const
@@ -149,7 +157,7 @@ void HeapManager::_display(const BlockDescriptor* i_pList) const
     }
 }
 
-void* HeapManager::_alloc(const size_t i_Size)
+void* HeapManager::_alloc(const size_t i_Size, const size_t i_AlignedSize)
 {
     //Calculate the memory size:
     assert(i_Size > 0);

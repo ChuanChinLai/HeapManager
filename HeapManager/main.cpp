@@ -17,25 +17,24 @@ int main(int argc, const char * argv[])
 {
     HeapManager_UnitTest();
     
-    HeapManager* pHeap = HeapManager::pHeapManager;
+    HeapManager* pHeap = HeapManager::_GetHeapManager();
     
     pHeap->_recycle();
     pHeap->_display();
-    
-    /*
+    pHeap->_destroy();
+
     const size_t 		sizeHeap = 1024 * 1024;
     const unsigned int 	numDescriptors = 8;
     
     void* pHeapMemory = malloc(sizeHeap);
     printf("Memory Address: %p\n", pHeapMemory);
+
+//    HeapManager::_init(pHeapMemory, sizeHeap, numDescriptors);
+    HeapManager* q = HeapManager::_init(pHeapMemory, 1000, numDescriptors);
     
-    HeapManager::_init(pHeapMemory, sizeHeap, numDescriptors);
-    HeapManager* q = HeapManager::_init(pHeapMemory, 1, numDescriptors);
+    q->_display();
     
-    printf("??: %p\n", q);
-    */
-  
-//    void* m1 = new int;
+    void* m1 = new int[10];
 
     return 0;
 }

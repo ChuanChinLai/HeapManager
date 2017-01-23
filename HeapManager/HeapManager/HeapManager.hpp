@@ -6,9 +6,9 @@
 //  Copyright © 2017年 CCLai. All rights reserved.
 //
 
-#pragma once
-//#ifndef HeapManager_hpp
-//#define HeapManager_hpp
+
+#ifndef HeapManager_hpp
+#define HeapManager_hpp
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -29,10 +29,9 @@ public:
     
     // display memory lists
     void _display() const;
-    void _display(const BlockDescriptor* i_pList) const;
-    
+
     // allocate a memory to user
-    void* _alloc(const size_t i_Size);
+    void* _alloc(const size_t i_Size, const size_t i_AlignedSize = 4);
     
     //free a memory block
     bool _free(const void* i_pMemory);
@@ -40,9 +39,14 @@ public:
     //call garbage collection
     void _recycle();
     
-    static HeapManager* pHeapManager;
-    
+    //Init function for init;
     static HeapManager* _init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
+    
+    //Get the HeapManager;
+    static HeapManager* _GetHeapManager()
+    {
+        return s_pHeapManager;
+    }
     
 private:
     
@@ -56,6 +60,12 @@ private:
     
     // create a new Allocator
     HeapManager* _create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
+    
+    //static pointer to HeapManager
+    static HeapManager* s_pHeapManager;
+    
+    // display memory lists
+    void _display(const BlockDescriptor* i_pList) const;
     
     //Total Memory Size
     size_t m_MemorySize;
@@ -72,6 +82,5 @@ private:
     BlockDescriptor* m_pOutstandingAllocationList;
 };
 
-//#endif /* HeapManager_hpp */
+#endif /* HeapManager_hpp */
 
-#include "HeapManager-inline.hpp"
