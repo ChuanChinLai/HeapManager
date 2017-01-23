@@ -11,6 +11,25 @@
 #include "Block_Descriptor.hpp"
 #include "ToolKit.hpp"
 
+HeapManager* HeapManager::pHeapManager = nullptr;
+
+HeapManager* HeapManager::_init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
+{
+    if (pHeapManager == nullptr)
+    {
+        static HeapManager Instance;
+        pHeapManager = &Instance;
+        Instance._create(i_pMemoryPool, i_MemorySize, i_NumDescriptors);
+        printf("\nCreate a new HeapManager\n");
+    }
+    else
+    {
+        printf("\nHeapManager already exists\n");
+    }
+    
+    return pHeapManager;
+}
+
 
 HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
 {
@@ -79,7 +98,8 @@ HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize
 
 void HeapManager::_destroy()
 {
-
+//    delete pHeapManager;
+//    pHeapManager = nullptr;
 }
 
 void HeapManager::_display() const
@@ -131,7 +151,6 @@ void HeapManager::_display(const BlockDescriptor* i_pList) const
 
 void* HeapManager::_alloc(const size_t i_Size)
 {
-
     //Calculate the memory size:
     assert(i_Size > 0);
     
@@ -380,3 +399,4 @@ void HeapManager::_recycle()
     
     ToolKit::sorting(m_pFreeMemoryList);
 }
+

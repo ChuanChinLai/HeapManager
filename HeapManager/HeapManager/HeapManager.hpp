@@ -6,8 +6,9 @@
 //  Copyright © 2017年 CCLai. All rights reserved.
 //
 
-#ifndef HeapManager_hpp
-#define HeapManager_hpp
+#pragma once
+//#ifndef HeapManager_hpp
+//#define HeapManager_hpp
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -18,22 +19,11 @@ class HeapManager
 {
 public:
     
-    HeapManager() : m_alignedSize(4),
-//                    m_NumDescriptors_FreeMemoryList(0),
-//                    m_NumDescriptors_FreeDescriptorList(0),
-//                    m_NumDescriptors_OutstandingAllocationList(0),
-                    m_pFreeMemoryList(nullptr),
-                    m_pFreeDescriptorList(nullptr),
-                    m_pOutstandingAllocationList(nullptr)
+    ~HeapManager()
     {
         
     }
-    
-    ~HeapManager();
-    
-    // create a new Allocator
-    HeapManager* _create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
-    
+
     // destroy the Allocator
     void _destroy();
     
@@ -50,15 +40,25 @@ public:
     //call garbage collection
     void _recycle();
     
+    static HeapManager* pHeapManager;
+    
+    static HeapManager* _init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
+    
 private:
+    
+    HeapManager() : m_alignedSize(4),
+    m_pFreeMemoryList(nullptr),
+    m_pFreeDescriptorList(nullptr),
+    m_pOutstandingAllocationList(nullptr)
+    {
+        
+    }
+    
+    // create a new Allocator
+    HeapManager* _create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
     
     //Total Memory Size
     size_t m_MemorySize;
-    
-    //Number of Descriptor for Descriptor List
-//    size_t m_NumDescriptors_FreeMemoryList;
-//    size_t m_NumDescriptors_FreeDescriptorList;
-//    size_t m_NumDescriptors_OutstandingAllocationList;
     
     //Block aligned Size
     uint8_t m_alignedSize;
@@ -72,5 +72,6 @@ private:
     BlockDescriptor* m_pOutstandingAllocationList;
 };
 
+//#endif /* HeapManager_hpp */
 
-#endif /* HeapManager_hpp */
+#include "HeapManager-inline.hpp"
