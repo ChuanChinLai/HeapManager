@@ -19,7 +19,7 @@ int main(int argc, const char * argv[])
 {
     //    using namespace HeapManagerProxy;
     const size_t 		sizeHeap = 1024 * 1024;
-    const unsigned int 	numDescriptors = 16;
+    const unsigned int 	numDescriptors = 2048;
     // Allocate memory for my test heap.
     void * pHeapMemory = malloc(sizeHeap);
     assert( pHeapMemory );
@@ -32,14 +32,10 @@ int main(int argc, const char * argv[])
     pHeap->_display();
     
     HeapManager_UnitTest();
-
     
-
-//    pHeap->_recycle();
-//    pHeap->_display();
+    pHeap->_recycle();
+    pHeap->_display();
     
-
-//    HeapManager::_init(pHeapMemory, sizeHeap, numDescriptors);
 
     return 0;
 }

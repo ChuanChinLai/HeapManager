@@ -13,6 +13,7 @@
 
 #include "ToolKit.hpp"
 
+
 HeapManager* HeapManager::s_pHeapManager = nullptr;
 FixedSizeAllocator* HeapManager::s_pFixedSizeAllocator = nullptr;
 size_t HeapManager::m_NumFSAs = 3;
@@ -247,6 +248,11 @@ void* HeapManager::_alloc(const size_t i_Size, const size_t i_AlignedSize)
         if (m_pFreeDescriptorList == nullptr)
         {
             printf("Block Descriptor is Not enough for use...\n");
+            return nullptr;
+        }
+        else if(size > prev_Descriptor->m_BlockSize)
+        {
+            printf("Memory is Not enough for use...\n");
             return nullptr;
         }
         

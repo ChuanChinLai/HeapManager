@@ -8,6 +8,7 @@
 
 #include "Unit_Test.hpp"
 #include "HeapManager.hpp"
+#include "FixedSizeAllocator.hpp"
 #include "BitArray.hpp"
 
 #include <cassert>
@@ -23,7 +24,6 @@
 bool HeapManager_UnitTest()
 {
     const size_t 		sizeHeap = 1024 * 1024;
-    const unsigned int 	numDescriptors = 16;
     
     HeapManager* pHeapProxy = HeapManager::_GetHeapManager();
 
@@ -75,9 +75,10 @@ bool HeapManager_UnitTest()
     bool	done = false;
     // allocate memory of random sizes up to 1024 bytes from the heap manager
     // until it runs out of memory
+    
     do
     {
-        const size_t	maxTestAllocationSize = 48;
+        const size_t	maxTestAllocationSize = 1024;
         size_t			sizeAlloc = 1 + ( rand() & ( maxTestAllocationSize - 1 ) );
         
 #ifdef SUPPORT_ALIGNMENT
@@ -87,7 +88,20 @@ bool HeapManager_UnitTest()
         void * pPtr = alloc( s_pHeapManager, sizeAlloc, alignment );
         assert( (reinterpret_cast<uintptr_t>(pPtr) & (alignment - 1)) == 0 );
 #else
-        void * pPtr = pHeapProxy->_alloc(sizeAlloc);
+        
+        void* pPtr = nullptr;
+        
+
+        FixedSizeAllocator * pFSA = pHeapProxy->_search_FixedSizeAllocator(sizeAlloc);
+    
+        if (pFSA)
+        {
+            pPtr = pFSA->_alloc();
+        }
+        else
+        {
+            pPtr = pHeapProxy->_alloc(sizeAlloc);
+        }
         
         
 #endif // SUPPORT_ALIGNMENT
@@ -97,7 +111,17 @@ bool HeapManager_UnitTest()
 #ifdef SUPPORT_ALIGNMENT
             pPtr = alloc( s_pHeapManager, sizeAlloc, alignment );
 #else
-            pPtr = pHeapProxy->_alloc(sizeAlloc);
+
+            FixedSizeAllocator * pFSA = pHeapProxy->_search_FixedSizeAllocator(sizeAlloc);
+            
+            if (pFSA)
+            {
+                pPtr = pFSA->_alloc();
+            }
+            else
+            {
+                pPtr = pHeapProxy->_alloc(sizeAlloc);
+            }
 #endif // SUPPORT_ALIGNMENT
             if( pPtr == NULL )
             {
@@ -106,6 +130,7 @@ bool HeapManager_UnitTest()
             }
         }
         
+
         printf("vector: %p\n", pPtr);
         AllocatedAddresses.push_back( pPtr );
         numAllocs++;
@@ -117,9 +142,21 @@ bool HeapManager_UnitTest()
         {
             void * pPtr = AllocatedAddresses.back();
             AllocatedAddresses.pop_back();
-            bool success = pHeapProxy->_free(pPtr);
+            
+            bool success = false;
+            
+            if (pHeapProxy->_free_FixedSizeAllocator(pPtr) == true)
+            {
+                success = true;
+            }
+            else
+            {
+                success = pHeapProxy->_free(pPtr);
+            }
+            
             assert( success );
             numFrees++;
+            
         }
         
         if( (rand() % garbageCollectAboutEvery) == 0 )
@@ -130,6 +167,11 @@ bool HeapManager_UnitTest()
         }
     } while( 1 );
 #ifdef __SHOW_FREE_BLOCKS
+    
+    
+    
+    pHeapProxy->_display();
+    
     printf( "After exhausting allocations:\n" );
 //    ShowFreeBlocks( s_pHeapManager );
     pHeapProxy->_display();
@@ -146,13 +188,6 @@ bool HeapManager_UnitTest()
         
         printf("Size: %lu\n", AllocatedAddresses.size());
         
-        for (std::vector<void*>::iterator i = AllocatedAddresses.begin(); i != AllocatedAddresses.end(); i++)
-        {
-            printf("%p\n", *i);
-        }
-        
-        
-        
         // return them back to the heap manager
         while( !AllocatedAddresses.empty() )
         {
@@ -167,7 +202,17 @@ bool HeapManager_UnitTest()
             assert( success );
             */
             
-            bool success = pHeapProxy->_free(pPtr);
+            bool success = false;
+            
+            if (pHeapProxy->_free_FixedSizeAllocator(pPtr) == true)
+            {
+                success = true;
+            }
+            else
+            {
+                success = pHeapProxy->_free(pPtr);
+            }
+            
             assert( success );
         }
 #ifdef __SHOW_FREE_BLOCKS

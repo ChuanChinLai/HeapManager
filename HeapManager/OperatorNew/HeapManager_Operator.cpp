@@ -13,7 +13,7 @@
 void* operator new(const size_t i_size)
 {
     void* pReturn = nullptr;
-    FixedSizeAllocator* pFSA = HeapManager::_search_FixedSizeAllocator(i_size);
+    FixedSizeAllocator* pFSA = HeapManager::_GetHeapManager()->_search_FixedSizeAllocator(i_size);
     
     if (pFSA)
         pReturn = pFSA->_alloc();
@@ -22,23 +22,23 @@ void* operator new(const size_t i_size)
         pReturn = HeapManager::_GetHeapManager()->_alloc(i_size);
     
     return pReturn;
-    
-    
-//    return HeapManager::_GetHeapManager()->_alloc(i_size);
 }
 
 void operator delete(void * i_ptr)
 {
     if (i_ptr)
     {
-        HeapManager::_GetHeapManager()->_free(i_ptr);
+        if (HeapManager::_GetHeapManager()->_free_FixedSizeAllocator(i_ptr) == false)
+        {
+            HeapManager::_GetHeapManager()->_free(i_ptr);
+        }
     }
 }
 
 void* operator new[](const size_t i_size)
 {
     void* pReturn = nullptr;
-    FixedSizeAllocator* pFSA = HeapManager::_search_FixedSizeAllocator(i_size);
+    FixedSizeAllocator* pFSA = HeapManager::_GetHeapManager()->_search_FixedSizeAllocator(i_size);
     
     if (pFSA)
         pReturn = pFSA->_alloc();
@@ -53,26 +53,9 @@ void operator delete[](void * i_ptr)
 {
     if (i_ptr)
     {
-        HeapManager::_GetHeapManager()->_free(i_ptr);
-    }
-}
-
-void * operator new(const size_t i_size, uint8_t i_align)
-{
-    switch (i_align)
-    {
-        case 16:
-        case 32:
-            return HeapManager::_GetHeapManager()->_alloc(i_size, i_align);
-        default:
-            return HeapManager::_GetHeapManager()->_alloc(i_size);
-    }
-}
-
-void operator delete(void * i_ptr, uint8_t i_align)
-{
-    if (i_ptr)
-    {
-        HeapManager::_GetHeapManager()->_free(i_ptr);
+        if (HeapManager::_GetHeapManager()->_free_FixedSizeAllocator(i_ptr) == false)
+        {
+            HeapManager::_GetHeapManager()->_free(i_ptr);
+        }
     }
 }

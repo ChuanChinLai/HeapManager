@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <vector>
 
+
 class BlockDescriptor;
 class FixedSizeAllocator;
 
@@ -94,14 +95,6 @@ private:
     
     //For FixedSizeAllocator:
     
-    
-
-    
-    static FixedSizeAllocator* _GetFixedSizeAllocator()
-    {
-        return s_pFixedSizeAllocator;
-    }
-    
     void _init_FixedSizeAllocator(const void* i_pMemoryPool);
     void _destroy_FixedSizeAllocator();
 
@@ -111,6 +104,9 @@ private:
     //number of FSA type
     static size_t m_NumFSAs;
     size_t m_NumBlocks_FSA;
+    
+    //Pointer for FSA Memory Pool
+    uintptr_t m_pMemoryPool_FSA;
     
     //Block Unit Size
     //e.g, m_FSAUnitSize = 16, block memory will be 16, 32, 48, 64...
