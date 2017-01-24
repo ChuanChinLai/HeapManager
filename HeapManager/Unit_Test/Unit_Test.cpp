@@ -22,16 +22,10 @@
 
 bool HeapManager_UnitTest()
 {
-//    using namespace HeapManagerProxy;
     const size_t 		sizeHeap = 1024 * 1024;
-    const unsigned int 	numDescriptors = 8;
-    // Allocate memory for my test heap.
-    void * pHeapMemory = malloc(sizeHeap);
-    assert( pHeapMemory );
-    // Create a heap manager for my test heap.
+    const unsigned int 	numDescriptors = 16;
     
-    
-    HeapManager* pHeapProxy = HeapManager::_init(pHeapMemory, sizeHeap, numDescriptors);
+    HeapManager* pHeapProxy = HeapManager::_GetHeapManager();
 
     assert(pHeapProxy);
     if( pHeapProxy == NULL )
@@ -83,7 +77,7 @@ bool HeapManager_UnitTest()
     // until it runs out of memory
     do
     {
-        const size_t		maxTestAllocationSize = 1024;
+        const size_t	maxTestAllocationSize = 48;
         size_t			sizeAlloc = 1 + ( rand() & ( maxTestAllocationSize - 1 ) );
         
 #ifdef SUPPORT_ALIGNMENT
@@ -204,7 +198,10 @@ bool HeapManager_UnitTest()
         
         printf( "\n" );		// do a large test allocation to see if garbage collection worked
         void * pPtr = pHeapProxy->_alloc(sizeHeap / 2);
+        pHeapProxy->_display();
+        
         assert( pPtr );
+        
         if( pPtr )
         {
             bool success = pHeapProxy->_free( pPtr );
@@ -212,10 +209,14 @@ bool HeapManager_UnitTest()
         }
     }
     
-//    pHeapProxy->_destroy();
-//    pHeapProxy = NULL;
+    pHeapProxy->_display();
+    pHeapProxy->_destroy();
+    pHeapProxy->_recycle();
     
-    free( pHeapMemory );
+    pHeapProxy->_display();
+    
+    pHeapProxy = NULL;
+    free( pHeapProxy );
     // we succeeded
     
     return true;

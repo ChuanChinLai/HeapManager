@@ -10,33 +10,36 @@
 #include <iostream>
 
 #include "HeapManager.hpp"
+#include "FixedSizeAllocator.hpp"
 #include "BitArray.hpp"
 #include "ToolKit.hpp"
 #include "Unit_Test.hpp"
 
 int main(int argc, const char * argv[])
 {
-
-    HeapManager_UnitTest();
+    //    using namespace HeapManagerProxy;
+    const size_t 		sizeHeap = 1024 * 1024;
+    const unsigned int 	numDescriptors = 16;
+    // Allocate memory for my test heap.
+    void * pHeapMemory = malloc(sizeHeap);
+    assert( pHeapMemory );
+    
+    HeapManager* pHeap = HeapManager::_init(pHeapMemory, sizeHeap, numDescriptors);
+    // Create a heap manager for my test heap.
+    
     BitArray_UnitTest();
     
-    HeapManager* pHeap = HeapManager::_GetHeapManager();
-    
-    pHeap->_recycle();
     pHeap->_display();
-
-    const size_t 		sizeHeap = 1024 * 1024;
-    const unsigned int 	numDescriptors = 8;
     
-    void* pHeapMemory = malloc(sizeHeap);
-    printf("Memory Address: %p\n", pHeapMemory);
+    HeapManager_UnitTest();
+
+    
+
+//    pHeap->_recycle();
+//    pHeap->_display();
+    
 
 //    HeapManager::_init(pHeapMemory, sizeHeap, numDescriptors);
-    HeapManager* q = HeapManager::_init(pHeapMemory, 1000, numDescriptors);
-    
-    q->_display();
-    
-    void* m1 = new int[10];
 
     return 0;
 }

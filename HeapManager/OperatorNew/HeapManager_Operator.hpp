@@ -18,10 +18,4 @@ extern void operator delete(void* i_ptr);
 extern void* operator new[](const size_t i_size);
 extern void operator delete[](void* i_ptr);
 
-extern void* operator new(const size_t i_size, uint8_t i_align);
-extern void operator delete(void* i_ptr, uint8_t i_align);
-
-
-
-
 #endif /* HeapManager_Operator_hpp */

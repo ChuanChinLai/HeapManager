@@ -8,10 +8,23 @@
 
 #include "HeapManager_Operator.hpp"
 #include "HeapManager.hpp"
+#include "FixedSizeAllocator.hpp"
 
 void* operator new(const size_t i_size)
 {
-    return HeapManager::_GetHeapManager()->_alloc(i_size);
+    void* pReturn = nullptr;
+    FixedSizeAllocator* pFSA = HeapManager::_search_FixedSizeAllocator(i_size);
+    
+    if (pFSA)
+        pReturn = pFSA->_alloc();
+    
+    if (pReturn == nullptr)
+        pReturn = HeapManager::_GetHeapManager()->_alloc(i_size);
+    
+    return pReturn;
+    
+    
+//    return HeapManager::_GetHeapManager()->_alloc(i_size);
 }
 
 void operator delete(void * i_ptr)
@@ -24,7 +37,16 @@ void operator delete(void * i_ptr)
 
 void* operator new[](const size_t i_size)
 {
-    return HeapManager::_GetHeapManager()->_alloc(i_size);
+    void* pReturn = nullptr;
+    FixedSizeAllocator* pFSA = HeapManager::_search_FixedSizeAllocator(i_size);
+    
+    if (pFSA)
+        pReturn = pFSA->_alloc();
+        
+    if (pReturn == nullptr)
+        pReturn = HeapManager::_GetHeapManager()->_alloc(i_size);
+            
+    return pReturn;
 }
 
 void operator delete[](void * i_ptr)

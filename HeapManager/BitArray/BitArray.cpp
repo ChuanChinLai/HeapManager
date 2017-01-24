@@ -25,7 +25,7 @@ BitArray::BitArray(const size_t i_NumBits, uint8_t* i_pBitArray): m_NumBits(i_Nu
 
 BitArray::~BitArray()
 {
-    delete[] m_pBitArray;
+    delete m_pBitArray;
 }
 
 BitArray* BitArray::_create(const size_t i_NumBits, HeapManager* i_pHeapManager)
@@ -37,7 +37,7 @@ BitArray* BitArray::_create(const size_t i_NumBits, HeapManager* i_pHeapManager)
     size_t TotalMemory = NumBytes * sizeof(uint8_t) + sizeof(BitArray);
     
     //allocate a memory block for BitArray
-    uint8_t* pMemory = reinterpret_cast<uint8_t*>(i_pHeapManager->_alloc(TotalMemory));
+    uint8_t* pMemory = reinterpret_cast<uint8_t*>(i_pHeapManager->_alloc(TotalMemory - NumBytes));
     
     assert(pMemory);
     
@@ -52,9 +52,9 @@ void BitArray::ClearAll(void)
 {
     assert(m_pBitArray);
     
-    for (size_t i = 0; i < m_NumBytes; i++)
+    for (size_t i = 0; i < m_NumBits; i++)
     {
-        m_pBitArray[i] = 0x00;
+        ClearBit(i);
     }
 }
 
@@ -65,7 +65,7 @@ void BitArray::SetAll(void)
     
     for (size_t i = 0; i < m_NumBytes; i++)
     {
-        m_pBitArray[i] = 0xFF;
+        SetBit(1);
     }
 }
 
@@ -74,9 +74,9 @@ bool BitArray::AreAllClear(void) const
 {
     assert(m_pBitArray);
     
-    for (size_t i = 0; i < m_NumBytes; i++)
+    for (size_t i = 0; i < m_NumBits; i++)
     {
-        if (m_pBitArray[i] != 0x00)
+        if (IsBitSet(i))
         {
             return false;
         }
@@ -89,9 +89,9 @@ bool BitArray::AreAllSet(void) const
 {
     assert(m_pBitArray);
     
-    for (size_t i = 0; i < m_NumBytes; i++)
+    for (size_t i = 0; i < m_NumBits; i++)
     {
-        if (m_pBitArray[i] != 0xFF)
+        if (IsBitClear(i))
         {
             return false;
         }

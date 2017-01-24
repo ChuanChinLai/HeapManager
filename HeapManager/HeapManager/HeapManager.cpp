@@ -7,11 +7,15 @@
 //
 #include <cassert>
 
-#include "HeapManager.hpp"
 #include "Block_Descriptor.hpp"
+#include "HeapManager.hpp"
+#include "FixedSizeAllocator.hpp"
+
 #include "ToolKit.hpp"
 
 HeapManager* HeapManager::s_pHeapManager = nullptr;
+FixedSizeAllocator* HeapManager::s_pFixedSizeAllocator = nullptr;
+size_t HeapManager::m_NumFSAs = 3;
 
 HeapManager* HeapManager::_init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
 {
@@ -97,17 +101,22 @@ HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize
     
     //Init Outstanding Allocation List
     m_pOutstandingAllocationList = nullptr;
+
+    void* pMemoryToFSA = _alloc(_Get_MemoryTotalSize_FSA());
+    _init_FixedSizeAllocator(pMemoryToFSA);
     
     return this;
 }
 
 void HeapManager::_destroy()
 {
-    s_pHeapManager = nullptr;
+//    s_pHeapManager = nullptr;
     
-    m_pFreeMemoryList = nullptr;
-    m_pFreeDescriptorList = nullptr;
-    m_pOutstandingAllocationList = nullptr;
+//    m_pFreeMemoryList = nullptr;
+//    m_pFreeDescriptorList = nullptr;
+//    m_pOutstandingAllocationList = nullptr;
+    
+    _destroy_FixedSizeAllocator();
 }
 
 void HeapManager::_display() const
@@ -237,7 +246,7 @@ void* HeapManager::_alloc(const size_t i_Size, const size_t i_AlignedSize)
         //Last Descriptor in my FreeDescriptorList always has Biggest Size.
         if (m_pFreeDescriptorList == nullptr)
         {
-            printf("Not enough Descriptor for use...\n");
+            printf("Block Descriptor is Not enough for use...\n");
             return nullptr;
         }
         
@@ -344,7 +353,7 @@ void HeapManager::_recycle()
     //If FreeMemoryList is NULL or there is only one MemoryBlock: Do nothing...
     if(m_pFreeMemoryList == nullptr || m_pFreeMemoryList->m_pNext == nullptr)
     {
-        printf("Garbage Collection is NOT necessary");
+        printf("\nGarbage Collection is NOT necessary\n");
         return;
     }
     

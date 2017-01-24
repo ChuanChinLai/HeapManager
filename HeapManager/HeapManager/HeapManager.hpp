@@ -12,8 +12,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <vector>
 
 class BlockDescriptor;
+class FixedSizeAllocator;
 
 class HeapManager
 {
@@ -48,12 +50,21 @@ public:
         return s_pHeapManager;
     }
     
+    static FixedSizeAllocator* _search_FixedSizeAllocator(const size_t i_Size);
+    
+    bool _free_FixedSizeAllocator(const void * i_pMemory);
+    
+    //static pointer to FixedSizeAllocator
+    static FixedSizeAllocator* s_pFixedSizeAllocator;
+    
 private:
     
     HeapManager() : m_alignedSize(4),
                     m_pFreeMemoryList(nullptr),
                     m_pFreeDescriptorList(nullptr),
-                    m_pOutstandingAllocationList(nullptr)
+                    m_pOutstandingAllocationList(nullptr),
+                    m_NumBlocks_FSA(100),
+                    m_UnitSize_FSA(16)
     {
         
     }
@@ -80,6 +91,30 @@ private:
     BlockDescriptor* m_pFreeMemoryList;
     BlockDescriptor* m_pFreeDescriptorList;
     BlockDescriptor* m_pOutstandingAllocationList;
+    
+    //For FixedSizeAllocator:
+    
+    
+
+    
+    static FixedSizeAllocator* _GetFixedSizeAllocator()
+    {
+        return s_pFixedSizeAllocator;
+    }
+    
+    void _init_FixedSizeAllocator(const void* i_pMemoryPool);
+    void _destroy_FixedSizeAllocator();
+
+    //Total Memory Size for FSA
+    size_t _Get_MemoryTotalSize_FSA();
+    
+    //number of FSA type
+    static size_t m_NumFSAs;
+    size_t m_NumBlocks_FSA;
+    
+    //Block Unit Size
+    //e.g, m_FSAUnitSize = 16, block memory will be 16, 32, 48, 64...
+    const size_t m_UnitSize_FSA;
 };
 
 #endif /* HeapManager_hpp */

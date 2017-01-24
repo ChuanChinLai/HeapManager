@@ -30,7 +30,7 @@ public:
     }
     
     // create a new Allocator
-    bool _create(void* i_pMemoryPool, const size_t i_MemorySize, const size_t i_BlockSize);
+    bool _create(void* i_pMemoryPool, const size_t i_NumBlocks, const size_t i_BlockSize);
     
     // allocate a memory to user
     void* _alloc();
@@ -55,6 +55,11 @@ public:
     
     // return Block Size for User
     size_t _GetBlockSize() const;
+    
+    BitArray* _GetBitArray()
+    {
+        return m_pBitArray;
+    }
     
 private:
     
