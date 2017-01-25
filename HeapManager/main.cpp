@@ -24,18 +24,14 @@ int main(int argc, const char * argv[])
     void * pHeapMemory = malloc(sizeHeap);
     assert( pHeapMemory );
     
-    HeapManager* pHeap = HeapManager::_init(pHeapMemory, sizeHeap, numDescriptors);
-    // Create a heap manager for my test heap.
     
+    // Create a heap manager for my test heap.
+    HeapManager* pHeap = HeapManager::_create(pHeapMemory, sizeHeap, numDescriptors);
     BitArray_UnitTest();
     
     pHeap->_display();
     
     HeapManager_UnitTest();
     
-    pHeap->_recycle();
-    pHeap->_display();
-    
-
     return 0;
 }

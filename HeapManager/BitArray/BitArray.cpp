@@ -25,7 +25,7 @@ BitArray::BitArray(const size_t i_NumBits, uint8_t* i_pBitArray): m_NumBits(i_Nu
 
 BitArray::~BitArray()
 {
-    delete m_pBitArray;
+    delete[] m_pBitArray;
 }
 
 BitArray* BitArray::_create(const size_t i_NumBits, HeapManager* i_pHeapManager)

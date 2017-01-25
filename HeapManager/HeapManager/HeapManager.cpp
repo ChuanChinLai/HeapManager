@@ -18,13 +18,16 @@ HeapManager* HeapManager::s_pHeapManager = nullptr;
 FixedSizeAllocator* HeapManager::s_pFixedSizeAllocator = nullptr;
 size_t HeapManager::m_NumFSAs = 3;
 
-HeapManager* HeapManager::_init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
+HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
 {
     if (s_pHeapManager == nullptr)
     {
-        static HeapManager Instance;
-        s_pHeapManager = &Instance;
-        Instance._create(i_pMemoryPool, i_MemorySize, i_NumDescriptors);
+        
+        void* MemoryForManager = malloc(sizeof(HeapManager));
+
+        s_pHeapManager = new(MemoryForManager) HeapManager;
+        s_pHeapManager->_init(i_pMemoryPool, i_MemorySize, i_NumDescriptors);
+        
         printf("\nCreate a new HeapManager\n");
     }
     else
@@ -36,7 +39,7 @@ HeapManager* HeapManager::_init(void *i_pMemoryPool, const size_t i_MemorySize, 
 }
 
 
-HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
+HeapManager* HeapManager::_init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
 {
     
     assert(i_MemorySize > 0);
@@ -111,13 +114,8 @@ HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize
 
 void HeapManager::_destroy()
 {
-//    s_pHeapManager = nullptr;
-    
-//    m_pFreeMemoryList = nullptr;
-//    m_pFreeDescriptorList = nullptr;
-//    m_pOutstandingAllocationList = nullptr;
-    
     _destroy_FixedSizeAllocator();
+    free(s_pHeapManager);
 }
 
 void HeapManager::_display() const
@@ -177,30 +175,6 @@ void* HeapManager::_alloc(const size_t i_Size, const size_t i_AlignedSize)
     else
         size = (i_Size / m_alignedSize + 1) * m_alignedSize;
 
-    /*
-    //If there is only a descriptor in pFreeMemoryList
-    if (m_pFreeMemoryList->m_pNext == nullptr)
-    {
-        //pick a new Descriptor from FreeDescriptorList:
-        BlockDescriptor* newDescriptor = m_pFreeDescriptorList;
-        newDescriptor->m_BlockSize = size;
-        newDescriptor->m_pBlockAddress = m_pFreeMemoryList->m_pBlockAddress;
-        m_pFreeDescriptorList = newDescriptor->m_pNext;
-        
-        //add the Descriptor into OutstandingAllocationList:
-        newDescriptor->m_pNext = m_pOutstandingAllocationList;
-        m_pOutstandingAllocationList = newDescriptor;
-        
-        //Recalculate the BIG memory pool's address and size:
-        m_pFreeMemoryList->m_BlockSize -= size;
-        m_pFreeMemoryList->m_pBlockAddress = m_pFreeMemoryList->m_pBlockAddress + size;
-        
-        printf("\nAllocate a Memory Block:\n");
-        newDescriptor->_display();
-        
-        return reinterpret_cast<void*>(newDescriptor->m_pBlockAddress);
-    }
-     */
     //Check whether the first descriptor can be used for allocating and it is not the BIGGEST one:
     if(m_pFreeMemoryList->m_pNext != nullptr && m_pFreeMemoryList->m_BlockSize >= size)
     {

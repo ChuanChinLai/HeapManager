@@ -16,12 +16,9 @@ void HeapManager::_init_FixedSizeAllocator(const void* i_pMemoryPool)
 {
     //Used Memory Size
     size_t UsedMemorySize = 0;
-    uint8_t GuardBandSize = 4;
     
     uintptr_t MemoryAddress = reinterpret_cast<uintptr_t>(i_pMemoryPool);
     m_pMemoryPool_FSA = MemoryAddress;
-    
-    MemoryAddress += GuardBandSize;
     
     if (s_pFixedSizeAllocator == nullptr)
     {
@@ -30,6 +27,7 @@ void HeapManager::_init_FixedSizeAllocator(const void* i_pMemoryPool)
         for (size_t i = 0; i < m_NumFSAs; i++)
         {
             FixedSizeAllocator newAllocator;
+            
             newAllocator._create(reinterpret_cast<void*>(MemoryAddress), m_NumBlocks_FSA, m_UnitSize_FSA * (i + 1));
             
             s_pFixedSizeAllocator[i] = newAllocator;
@@ -54,14 +52,14 @@ void HeapManager::_destroy_FixedSizeAllocator()
         delete[] s_pFixedSizeAllocator;
         s_pFixedSizeAllocator = nullptr;
         
-        delete reinterpret_cast<void*>(m_pMemoryPool_FSA);;
+        _free(reinterpret_cast<void*>(m_pMemoryPool_FSA));
     }
 }
 
 
 bool HeapManager::_free_FixedSizeAllocator(const void * i_pMemory)
 {
-    if (s_pFixedSizeAllocator == nullptr)
+    if (s_pFixedSizeAllocator == nullptr || s_pFixedSizeAllocator == i_pMemory)
         return false;
     
     bool success = false;
@@ -99,12 +97,11 @@ FixedSizeAllocator* HeapManager::_search_FixedSizeAllocator(const size_t i_Size)
 size_t HeapManager::_Get_MemoryTotalSize_FSA()
 {
     size_t UsedMemorySize = 0;
-    uint8_t GuardBandSize = 4;
-    
+
     for (size_t i = 0; i < m_NumFSAs; i++)
     {
         UsedMemorySize += m_UnitSize_FSA * (i + 1) * m_NumBlocks_FSA;
     }
 
-    return UsedMemorySize + 2 * GuardBandSize;
+    return UsedMemorySize;
 }

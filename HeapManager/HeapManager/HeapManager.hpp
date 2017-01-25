@@ -42,8 +42,8 @@ public:
     //call garbage collection
     void _recycle();
     
-    //Init function for init;
-    static HeapManager* _init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
+    //Init function for create a HeapManager
+    static HeapManager* _create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
     
     //Get the HeapManager;
     static HeapManager* _GetHeapManager()
@@ -70,8 +70,8 @@ private:
         
     }
     
-    // create a new Allocator
-    HeapManager* _create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
+    // Init the HeapManager
+    HeapManager* _init(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors);
     
     //static pointer to HeapManager
     static HeapManager* s_pHeapManager;

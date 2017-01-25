@@ -60,7 +60,7 @@ void* FixedSizeAllocator::_alloc()
     }
     else
     {
-        printf("\nFixedSizeAllocator is not available...\n");
+        printf("\nFixedSizeAllocator is NOT available...\n");
         return nullptr;
     }
 }
