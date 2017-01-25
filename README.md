@@ -1,6 +1,6 @@
 # HeapManager
 
-This HeapManager can be used in C++ memory management.
+HeapManager used in C++ memory management.
 
 1. Designed and implemented regular memory allocator for memory pool management. 
 2. Supported Fixed-Size Allocator, which is faster than regular allocator. 
