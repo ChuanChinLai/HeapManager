@@ -15,8 +15,6 @@
 
 
 HeapManager* HeapManager::s_pHeapManager = nullptr;
-FixedSizeAllocator* HeapManager::s_pFixedSizeAllocator = nullptr;
-size_t HeapManager::m_NumFSAs = 3;
 
 HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize, const size_t i_NumDescriptors)
 {
@@ -224,7 +222,7 @@ void* HeapManager::_alloc(const size_t i_Size, const size_t i_AlignedSize)
             printf("Block Descriptor is Not enough for use...\n");
             return nullptr;
         }
-        else if(size > prev_Descriptor->m_BlockSize)
+        if(size > prev_Descriptor->m_BlockSize)
         {
             printf("Memory is Not enough for use...\n");
             return nullptr;

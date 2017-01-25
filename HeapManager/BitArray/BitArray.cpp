@@ -33,8 +33,8 @@ BitArray* BitArray::_create(const size_t i_NumBits, HeapManager* i_pHeapManager)
     assert(i_pHeapManager);
     size_t NumBytes = (i_NumBits + (BitsPerBytes - 1) / BitsPerBytes);
     
-    //Total Memory = BitArray memory + Bytes memory;
-    size_t TotalMemory = NumBytes * sizeof(uint8_t) + sizeof(BitArray);
+    //Total Memory = BitArray memory itself + extra memory where pBitArray points to;
+    size_t TotalMemory = sizeof(BitArray) + NumBytes * sizeof(uint8_t);
     
     //allocate a memory block for BitArray
     uint8_t* pMemory = reinterpret_cast<uint8_t*>(i_pHeapManager->_alloc(TotalMemory));

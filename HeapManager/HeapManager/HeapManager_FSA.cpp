@@ -17,6 +17,7 @@ void HeapManager::_init_FixedSizeAllocator(const void* i_pMemoryPool)
     //Used Memory Size
     size_t UsedMemorySize = 0;
     
+    //set up the memory address for memory pool of FSA
     uintptr_t MemoryAddress = reinterpret_cast<uintptr_t>(i_pMemoryPool);
     m_pMemoryPool_FSA = MemoryAddress;
     
@@ -77,7 +78,7 @@ bool HeapManager::_free_FixedSizeAllocator(const void * i_pMemory)
 }
 
 
-FixedSizeAllocator* HeapManager::_search_FixedSizeAllocator(const size_t i_Size)
+FixedSizeAllocator* HeapManager::_search_Available_FSA(const size_t i_Size)
 {
     if(s_pFixedSizeAllocator == nullptr)
         return nullptr;

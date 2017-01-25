@@ -51,12 +51,14 @@ public:
         return s_pHeapManager;
     }
     
-    static FixedSizeAllocator* _search_FixedSizeAllocator(const size_t i_Size);
+    //search which FSA can be used for allocate memory
+    FixedSizeAllocator* _search_Available_FSA(const size_t i_Size);
     
+    //check if FSA can free the memory
     bool _free_FixedSizeAllocator(const void * i_pMemory);
     
-    //static pointer to FixedSizeAllocator
-    static FixedSizeAllocator* s_pFixedSizeAllocator;
+    //pointer to FixedSizeAllocator
+    FixedSizeAllocator* s_pFixedSizeAllocator;
     
 private:
     
@@ -65,6 +67,7 @@ private:
                     m_pFreeDescriptorList(nullptr),
                     m_pOutstandingAllocationList(nullptr),
                     m_NumBlocks_FSA(100),
+                    m_NumFSAs(5),
                     m_UnitSize_FSA(16)
     {
         
@@ -95,14 +98,19 @@ private:
     
     //For FixedSizeAllocator:
     
+    //init FSA
     void _init_FixedSizeAllocator(const void* i_pMemoryPool);
+    
+    //destroy FSA
     void _destroy_FixedSizeAllocator();
 
     //Total Memory Size for FSA
     size_t _Get_MemoryTotalSize_FSA();
     
     //number of FSA type
-    static size_t m_NumFSAs;
+    size_t m_NumFSAs;
+    
+    //number of memory block in each FSA
     size_t m_NumBlocks_FSA;
     
     //Pointer for FSA Memory Pool

@@ -13,7 +13,7 @@
 void* operator new(const size_t i_size)
 {
     void* pReturn = nullptr;
-    FixedSizeAllocator* pFSA = HeapManager::_GetHeapManager()->_search_FixedSizeAllocator(i_size);
+    FixedSizeAllocator* pFSA = HeapManager::_GetHeapManager()->_search_Available_FSA(i_size);
     
     if (pFSA)
         pReturn = pFSA->_alloc();
@@ -38,7 +38,7 @@ void operator delete(void * i_ptr)
 void* operator new[](const size_t i_size)
 {
     void* pReturn = nullptr;
-    FixedSizeAllocator* pFSA = HeapManager::_GetHeapManager()->_search_FixedSizeAllocator(i_size);
+    FixedSizeAllocator* pFSA = HeapManager::_GetHeapManager()->_search_Available_FSA(i_size);
     
     if (pFSA)
         pReturn = pFSA->_alloc();

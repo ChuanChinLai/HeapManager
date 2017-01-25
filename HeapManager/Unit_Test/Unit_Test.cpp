@@ -92,7 +92,7 @@ bool HeapManager_UnitTest()
         void* pPtr = nullptr;
         
 
-        FixedSizeAllocator * pFSA = pHeapProxy->_search_FixedSizeAllocator(sizeAlloc);
+        FixedSizeAllocator * pFSA = pHeapProxy->_search_Available_FSA(sizeAlloc);
     
         if (pFSA)
         {
@@ -112,7 +112,7 @@ bool HeapManager_UnitTest()
             pPtr = alloc( s_pHeapManager, sizeAlloc, alignment );
 #else
 
-            FixedSizeAllocator * pFSA = pHeapProxy->_search_FixedSizeAllocator(sizeAlloc);
+            FixedSizeAllocator * pFSA = pHeapProxy->_search_Available_FSA(sizeAlloc);
             
             if (pFSA)
             {
