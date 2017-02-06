@@ -255,13 +255,7 @@ bool HeapManager_UnitTest()
     }
     
     pHeapProxy->_display();
-    pHeapProxy->_destroy();
-    pHeapProxy->_recycle();
-    
-    pHeapProxy->_display();
-    
-    pHeapProxy = NULL;
-    free( pHeapProxy );
+
     // we succeeded
     
     return true;

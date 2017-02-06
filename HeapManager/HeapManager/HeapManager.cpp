@@ -20,7 +20,6 @@ HeapManager* HeapManager::_create(void *i_pMemoryPool, const size_t i_MemorySize
 {
     if (s_pHeapManager == nullptr)
     {
-        
         void* MemoryForManager = malloc(sizeof(HeapManager));
 
         s_pHeapManager = new(MemoryForManager) HeapManager;
