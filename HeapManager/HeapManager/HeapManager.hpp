@@ -57,9 +57,6 @@ public:
     //check if FSA can free the memory
     bool _free_FixedSizeAllocator(const void * i_pMemory);
     
-    //pointer to FixedSizeAllocator
-    FixedSizeAllocator* s_pFixedSizeAllocator;
-    
 private:
     
     HeapManager() : m_alignedSize(4),
@@ -97,6 +94,9 @@ private:
     BlockDescriptor* m_pOutstandingAllocationList;
     
     //For FixedSizeAllocator:
+    
+    //pointer to FixedSizeAllocator
+    FixedSizeAllocator* m_pFixedSizeAllocator;
     
     //init FSA
     void _init_FixedSizeAllocator(const void* i_pMemoryPool);

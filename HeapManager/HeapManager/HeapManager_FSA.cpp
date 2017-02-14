@@ -21,9 +21,9 @@ void HeapManager::_init_FixedSizeAllocator(const void* i_pMemoryPool)
     uintptr_t MemoryAddress = reinterpret_cast<uintptr_t>(i_pMemoryPool);
     m_pMemoryPool_FSA = MemoryAddress;
     
-    if (s_pFixedSizeAllocator == nullptr)
+    if (m_pFixedSizeAllocator == nullptr)
     {
-        s_pFixedSizeAllocator = new FixedSizeAllocator[m_NumFSAs];
+        m_pFixedSizeAllocator = new FixedSizeAllocator[m_NumFSAs];
         
         for (size_t i = 0; i < m_NumFSAs; i++)
         {
@@ -31,7 +31,7 @@ void HeapManager::_init_FixedSizeAllocator(const void* i_pMemoryPool)
             
             newAllocator._create(reinterpret_cast<void*>(MemoryAddress), m_NumBlocks_FSA, m_UnitSize_FSA * (i + 1));
             
-            s_pFixedSizeAllocator[i] = newAllocator;
+            m_pFixedSizeAllocator[i] = newAllocator;
             
             UsedMemorySize += m_UnitSize_FSA * (i + 1) * m_NumBlocks_FSA;
             assert(_Get_MemoryTotalSize_FSA() >= UsedMemorySize);
@@ -43,15 +43,15 @@ void HeapManager::_init_FixedSizeAllocator(const void* i_pMemoryPool)
 
 void HeapManager::_destroy_FixedSizeAllocator()
 {
-    if (s_pFixedSizeAllocator != nullptr)
+    if (m_pFixedSizeAllocator != nullptr)
     {
         for (size_t i = 0; i < m_NumFSAs; i++)
         {
-            s_pFixedSizeAllocator[i]._destroy();
+            m_pFixedSizeAllocator[i]._destroy();
         }
         
-        delete[] s_pFixedSizeAllocator;
-        s_pFixedSizeAllocator = nullptr;
+        delete[] m_pFixedSizeAllocator;
+        m_pFixedSizeAllocator = nullptr;
         
         _free(reinterpret_cast<void*>(m_pMemoryPool_FSA));
     }
@@ -60,14 +60,14 @@ void HeapManager::_destroy_FixedSizeAllocator()
 
 bool HeapManager::_free_FixedSizeAllocator(const void * i_pMemory)
 {
-    if (s_pFixedSizeAllocator == nullptr || s_pFixedSizeAllocator == i_pMemory)
+    if (m_pFixedSizeAllocator == nullptr || m_pFixedSizeAllocator == i_pMemory)
         return false;
     
     bool success = false;
     
     for (size_t i = 0; i < m_NumFSAs ; i++)
     {
-        success = s_pFixedSizeAllocator[i]._free(i_pMemory);
+        success = m_pFixedSizeAllocator[i]._free(i_pMemory);
             
         if (success)
         {
@@ -80,14 +80,14 @@ bool HeapManager::_free_FixedSizeAllocator(const void * i_pMemory)
 
 FixedSizeAllocator* HeapManager::_search_Available_FSA(const size_t i_Size)
 {
-    if(s_pFixedSizeAllocator == nullptr)
+    if(m_pFixedSizeAllocator == nullptr)
         return nullptr;
     
     for (size_t i = 0; i < m_NumFSAs; i++)
     {
-        if (i_Size < s_pFixedSizeAllocator[i]._GetBlockSize() && s_pFixedSizeAllocator[i]._IsAvailable())
+        if (i_Size < m_pFixedSizeAllocator[i]._GetBlockSize() && m_pFixedSizeAllocator[i]._IsAvailable())
         {
-                return &s_pFixedSizeAllocator[i];
+                return &m_pFixedSizeAllocator[i];
         }
     }
 
