@@ -1,19 +1,13 @@
-//
-//  Unit_Test.cpp
-//  HeapManager
-//
-//  Created by CCLai on 2017/1/16.
-//  Copyright © 2017年 CCLai. All rights reserved.
-//
 
-#include "Unit_Test.hpp"
-#include "HeapManager.hpp"
-#include "FixedSizeAllocator.hpp"
+
+#include "Unit_Test\Unit_Test.hpp"
+#include "HeapManager\HeapManager.hpp"
+
+#include "FixedSizeAllocator\FixedSizeAllocator.hpp"
 #include "BitArray.hpp"
 
 #include <cassert>
 #include <string.h>
-#include <sys/malloc.h>
 #include <assert.h>
 #include <algorithm>
 #include <vector>
