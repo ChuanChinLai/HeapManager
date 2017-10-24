@@ -2,7 +2,7 @@
 
 #include <BitArray.h>
 #include <HeapManager.h>
-#include "Assert.h"
+#include <Assert.h>
 
 uint8_t const Engine::Memory::BitArray::BitsPerBytes = 8;
 

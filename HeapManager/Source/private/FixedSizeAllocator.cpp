@@ -1,12 +1,11 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+
+#include <Assert.h>
+#include <BitArray.h>
 #include <FixedSizeAllocator.h>
 #include <HeapManager.h>
-#include <BitArray.h>
-#include <Assert.h>
-
-
 
 namespace Engine
 {

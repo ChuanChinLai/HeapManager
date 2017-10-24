@@ -39,7 +39,6 @@ namespace Engine
 				this_descriptor = this_descriptor->m_pNext;
 			}
 		}
-
 	}
 }
 
